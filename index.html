@@ -264,11 +264,9 @@
     margin-bottom:44px;
   }
   .work-head h2{ font-size:clamp(24px,3vw,30px); }
-  .work.wrap{ max-width:1560px; }
-  .work-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; }
-  .work-body .loc{ font-size:19px; }
-  .stat{ font-size:15px; }
-  .stat b{ font-size:21px; }
+  .work.wrap{ max-width:1044px; }
+  .work-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+  .work-body .loc{ font-size:16px; }
   .work-card{ border:none; border-radius:12px; overflow:visible; background:none; }
   .work-media{
     aspect-ratio:9/16;
@@ -457,28 +455,29 @@
   .wa-bubble{
     position:fixed; z-index:900;
     right:max(22px, env(safe-area-inset-right));
-    bottom:calc(max(0px, env(safe-area-inset-bottom)) + 64px);
-    display:flex; flex-direction:column; align-items:flex-end; gap:14px;
+    bottom:0;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
     text-decoration:none; -webkit-tap-highlight-color:transparent;
   }
   .wa-bubble img{
-    width:68px; height:68px; border-radius:50%; object-fit:cover; display:block;
-    border:3px solid var(--white); box-shadow:0 0 0 2px var(--gold), 0 6px 18px rgba(51,42,34,.3);
-    transition:transform .2s ease;
+    height:220px; width:auto; display:block; object-fit:contain;
+    filter:drop-shadow(0 4px 10px rgba(51,42,34,.25));
+    transition:transform .2s ease; transform-origin:50% 100%;
   }
-  .wa-bubble:hover img{ transform:scale(1.05); }
+  .wa-bubble:hover img{ transform:scale(1.04); }
   .wa-bubble .wa-label{
     position:relative;
-    background:#25d366; color:#fff; font-weight:700; font-size:14px; line-height:1;
+    background:var(--gold); color:#fff; font-weight:700; font-size:14px; line-height:1;
     padding:10px 16px; border-radius:16px; white-space:nowrap;
-    box-shadow:0 3px 10px rgba(0,0,0,.22);
+    box-shadow:0 3px 10px rgba(201,138,59,.35);
   }
   .wa-bubble .wa-label::after{
-    content:""; position:absolute; right:24px; bottom:-6px;
-    width:14px; height:14px; background:#25d366;
+    content:""; position:absolute; left:calc(50% - 7px); bottom:-6px;
+    width:14px; height:14px; background:var(--gold);
     transform:rotate(45deg); border-radius:0 0 4px 0;
   }
-  .wa-bubble:focus-visible{ outline:3px solid var(--gold); outline-offset:4px; border-radius:50%; }
+  @media (max-width:520px){ .wa-bubble img{ height:160px; } }
+  .wa-bubble:focus-visible{ outline:3px solid var(--gold); outline-offset:4px; border-radius:12px; }
 
   /* ---------- reviews ---------- */
   .reviews{ padding:76px 0 100px; border-top:1px solid var(--line); }
@@ -694,6 +693,7 @@
   .ph-zoom svg{ width:16px; height:16px; }
   .ph-zoom:hover{ transform:scale(1.1); background:#fff; }
   .pf-reviews .tl-review{ margin-top:0; max-width:560px; font-size:15px; }
+  @media (min-width:861px){ .pf-reviews{ display:flex; justify-content:center; } .pf-reviews .tl-review{ margin-left:auto; margin-right:auto; } }
   .pf .tl-cap + .pf-reviews{ margin-top:22px; }
   .pf .tl-photos + .pf-reviews{ margin-top:22px; }
   .pf-outro{ text-align:center; }
@@ -781,6 +781,31 @@
   @keyframes jpPulse{ 0%{ box-shadow:0 0 0 0 rgba(255,255,255,.85); } 100%{ box-shadow:0 0 0 9px rgba(255,255,255,0); } }
   @media (prefers-reduced-motion:reduce){ .jp-dot{ animation:none; } }
   .jp-note{ font-size:13px; font-weight:700; color:var(--ink-soft); margin:2px 0 8px; }
+  .work-grid .work-media{ aspect-ratio:9/16; }
+
+
+  /* deal overview inside intro */
+  .dealbox{ margin-top:6px; max-width:480px; }
+  .deal-grid{ display:grid; grid-template-columns:minmax(0,.75fr) auto minmax(0,1.5fr); align-items:stretch; gap:10px; }
+  .deal-give, .deal-get{ border-radius:16px; padding:16px 16px; }
+  .deal-give{ background:var(--white); border:1px solid var(--line); display:flex; flex-direction:column; justify-content:center; text-align:center; }
+  .deal-give small, .deal-get small{ display:block; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+  .deal-give b{ font-family:'Playfair Display',serif; font-size:24px; line-height:1.1; color:var(--ink); }
+  .deal-give span{ font-size:13.5px; color:var(--ink-soft); margin-top:3px; }
+  .deal-arrow{ align-self:center; font-size:24px; font-weight:800; color:var(--gold); }
+  .deal-get{ background:var(--cream); border:2px solid var(--gold); color:var(--ink); box-shadow:0 8px 22px rgba(201,138,59,.18); }
+  .deal-get ul{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+  .deal-get li{ display:flex; align-items:flex-start; gap:9px; font-size:14px; line-height:1.35; color:var(--ink); }
+  .deal-get li svg{ flex:0 0 auto; width:20px; height:20px; padding:4px; border-radius:50%; background:var(--gold); stroke:#fff; fill:none; stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round; }
+  .deal-get li b{ font-weight:800; }
+  .deal-ctas{ grid-column:1 / -1; display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-top:-24px; }
+  .deal-ctas .cta{ margin:0; transform:none; width:auto; display:inline-block; padding:14px 28px; font-size:15.5px; }
+  @media (max-width:760px){
+    .dealbox{ margin-left:auto; margin-right:auto; }
+    .deal-grid{ grid-template-columns:1fr; gap:6px; }
+    .deal-arrow{ transform:rotate(90deg); justify-self:center; font-size:22px; line-height:1; }
+    .deal-ctas{ margin-top:0; }
+  }
 </style>
 </head>
 <body>
@@ -809,7 +834,7 @@
   <!-- ============ WHATSAPP BUBBLE ============ -->
   <a class="wa-bubble" href="https://wa.me/31620812400" target="_blank" rel="noopener" aria-label="Text Manon on WhatsApp">
     <span class="wa-label">Text me!</span>
-    <img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1789559997/Manon-Pierens_LinkedIn-Photo-Small_naajlu.png" alt="Manon">
+    <img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1789725816/Manon_Transparant_2_jngbco.png" alt="Manon">
   </a>
 
   <div class="topbar">
@@ -839,21 +864,32 @@
       <h2>Hi! I'm Manon 👋</h2>
       <p>A Dutchie with a creative heart and curious eyes, always up for an adventure and capturing beautiful places. Together with my English partner Joe, we’re doing full-time vanlife in our 30s, discovering Europe’s best spots to stay.</p>
       <p>With over <em>15 years</em> of professional experience in marketing strategy and content creation. Backed by years of leading campaigns for 5-star Grand Hotel Karel V (Utrecht) and travel agency Charlie's Travels (Kenya), I look at your location through a strategic commercial lens.</p>
-      <p class="list-heading" style="margin-bottom:12px">What I can create for you:</p>
-      <ul class="intro-list">
-        <li><a href="#story"><span class="emoji">📸</span><span>High-resolution photography for your website &amp; booking channels</span></a></li>
-        <li><a href="#offer"><span class="emoji">🖌️</span><span>Upgrading existing content; photo editing &amp; color grading</span></a></li>
-        <li><a href="#work"><span class="emoji">🎬</span><span>Videos that capture the atmosphere of your stay, for social media</span></a></li>
-        <li><a href="#map"><span class="emoji">📍</span><span>Featured placement on my socials &amp; interactive map</span></a></li>
-        <li><a href="#reviews"><span class="emoji">⭐</span><span>Good reviews on Booking &amp; Google Maps</span></a></li>
-      </ul>
-      <p class="intro-offer"><b>And for now, it's a simple swap: 2 nights at your place in exchange for all of the above. No other costs!</b></p>
-      <div class="intro-ctas">
-        <a class="cta ghost" href="#story">See portfolio examples</a>
-        <a class="cta" href="#contact">Yes let's plan</a>
+      <div class="dealbox" id="deal">
+    <div class="deal-grid">
+      <div class="deal-give">
+        <small>You offer</small>
+        <b>2 nights</b>
+        <span>for 2 people</span>
+      </div>
+      <div class="deal-arrow" aria-hidden="true">&rarr;</div>
+      <div class="deal-get">
+        <small>You get</small>
+        <ul>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b>10 photos</b></span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b>1 social media video</b></span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span>Sent to you <b>before I leave</b>!</span></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span>We will leave <b>good reviews</b></span></li>
+        </ul>
       </div>
     </div>
+      </div>
+    </div>
+    <div class="deal-ctas">
+      <a class="cta ghost" href="#story">See portfolio examples</a>
+      <a class="cta" href="https://wa.me/31620812400?text=Hi%20Manon%21%20Yes%2C%20let%27s%20book%21%20We%27d%20love%20to%20welcome%20you%20and%20Joe%20for%202%20nights.%20What%20are%20the%20next%20steps%3F" target="_blank" rel="noopener">Yes, come over!</a>
+    </div>
   </section>
+
 
   <!-- ============ TIMELINE ============ -->
   <section class="tl wrap" id="story">
@@ -861,18 +897,18 @@
     <div class="pf">
       <article class="pf-item">
         <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Grand Hotel Karel V</h3><p>Fulltime marketing &amp; content manager<br>at 5 star hotel + Michelin-star restaurant</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791273127/Manon_camera_KarelV_nnfiwx.jpg" alt="Manon with camera at Karel V" loading="lazy"></div></div>
-        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791351843/1791351227006_2_hf4coe.jpg" alt="Grand Hotel Karel V 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791352715/1791352587703_l2iydb.jpg" alt="Grand Hotel Karel V 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791351842/1791351730800_2_n4k63r.jpg" alt="Grand Hotel Karel V 5" loading="lazy"></div></div>
-        <div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;She has a real feel for storytelling and knows exactly how to bring a location's story to life online&rdquo;<small>Leo, Director at Grand Hotel Karel V</small></div></div>
+        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791351843/1791351227006_2_hf4coe.jpg" alt="Grand Hotel Karel V 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791359460/1791357550788_2_wmpoyy.jpg" alt="Grand Hotel Karel V 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791351842/1791351730800_2_n4k63r.jpg" alt="Grand Hotel Karel V 5" loading="lazy"></div></div>
+        <div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;Manon's photography gave our hotel and restaurant a whole new look. Guests noticed, our online channels took off, and the images keep delivering across our website and campaigns&rdquo;<small>Leo, Director at Grand Hotel Karel V</small></div></div>
       </article>
       <article class="pf-item">
         <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Charlie's Travels</h3><p>Fulltime marketing &amp; content manager<br>at a Dutch travel agency, located in Kenya</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791273129/Manon_camera_Kenya_1_sulgt4.jpg" alt="Manon with camera in Kenya" loading="lazy"></div></div>
-        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1788771310/ChatGPT_Image_Sep_7_2026_10_54_51_AM_srq2cf.png" alt="Kenya 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1788771311/ChatGPT_Image_Sep_7_2026_10_52_51_AM_cobfi1.png" alt="Kenya 1" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1788771310/ChatGPT_Image_Sep_7_2026_10_52_57_AM_q5wkhm.png" alt="Kenya 2" loading="lazy"></div></div><div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;The complete package: a great eye for visual storytelling, strategic marketing thinking, and big ideas to match&rdquo;<small>Rémon, Charlie's Travels</small></div></div>
+        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1788771310/ChatGPT_Image_Sep_7_2026_10_54_51_AM_srq2cf.png" alt="Kenya 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1788771311/ChatGPT_Image_Sep_7_2026_10_52_51_AM_cobfi1.png" alt="Kenya 1" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1788771310/ChatGPT_Image_Sep_7_2026_10_52_57_AM_q5wkhm.png" alt="Kenya 2" loading="lazy"></div></div><div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;Manon's photos captured Kenya exactly as it feels, and the results showed. Her images lifted our campaigns, brought in more enquiries and became the backbone of our marketing&rdquo;<small>Rémon, Charlie's Travels</small></div></div>
       </article>
       <article class="pf-item">
-        <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Mawimbi restaurant</h3><p>Freelance content creation<br>for restaurant</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791277055/DRB_0210_mnc2ss.jpg" alt="Manon at work" loading="lazy"></div></div>
+        <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Mawimbi restaurant</h3><p>Freelance content creation<br>for restaurant</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791277055/DRB_0210_mnc2ss.jpg" alt="Manon at work" loading="lazy" style="object-position:50% 0%;transform:scale(1.7);transform-origin:50% 12%"></div></div>
         <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272872/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_59_c2t2ys.jpg" alt="Mawimbi restaurant 7" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272850/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_40_llr23d.jpg" alt="Mawimbi restaurant 2" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272852/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_14_qyoghe.jpg" alt="Mawimbi restaurant 1" loading="lazy"></div></div>
+        <div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;We were so happy with the photos Manon made for the opening of our restaurant. Every dish looked incredible, and they gave our launch exactly the first impression we hoped for&rdquo;<small>Carlos Espindola, Head Chef at Mawimbi</small></div></div>
         </article>
-      <div class="pf-outro"><h3 class="pf-title">Coming to you!</h3><p><b>And now I want to come to your accommodation and make great content!</b></p></div>
     </div>
   </section>
 
@@ -910,7 +946,7 @@
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
           <video poster="https://res.cloudinary.com/xngwwxyv/video/upload/so_6/v1791321921/VID_20261006_100132_637_bsl_ragbkc.jpg" onclick="openVideoModal(this)">
-            <source src="https://res.cloudinary.com/xngwwxyv/video/upload/v1791321921/VID_20261006_100132_637_bsl_ragbkc.mp4" type="video/mp4">
+            <source src="https://res.cloudinary.com/xngwwxyv/video/upload/f_mp4,vc_h264,ac_aac,q_auto/v1791321921/VID_20261006_100132_637_bsl_ragbkc.mp4" type="video/mp4">
           </video>
         </div>
         <div class="work-body">
@@ -989,7 +1025,7 @@
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
           <video poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1788532215/VID_20260904_072749_450_bsl_exported_2366_ysqfb2.jpg" onclick="openVideoModal(this)">
-            <source src="https://res.cloudinary.com/xngwwxyv/video/upload/v1788529873/TheBreathworkshop-Fonzie_Adem-Studio-Rondleiding_vitjnr.mp4" type="video/mp4">
+            <source src="https://res.cloudinary.com/xngwwxyv/video/upload/f_mp4,vc_h264,ac_aac,q_auto/v1788529873/TheBreathworkshop-Fonzie_Adem-Studio-Rondleiding_vitjnr.mp4" type="video/mp4">
           </video>
         </div>
         <div class="work-body">
