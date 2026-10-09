@@ -12,7 +12,7 @@
 <!-- Social preview (Open Graph / Twitter) -->
 <meta property="og:title" content="Manon Collab">
 <meta property="og:description" content="Your unique experience deserves great content - Manon - professional freelance content creator">
-<meta property="og:image" content="https://res.cloudinary.com/xngwwxyv/image/upload/v1791547569/Manon_Collab_Preview_xxduno.png">
+<meta property="og:image" content="https://res.cloudinary.com/xngwwxyv/image/upload/v1791548961/Manon_Let_s-Collab_Preview_uucm2l.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:type" content="website">
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Manon Collab">
 <meta name="twitter:description" content="Your unique experience deserves great content - Manon - professional freelance content creator">
-<meta name="twitter:image" content="https://res.cloudinary.com/xngwwxyv/image/upload/v1791547569/Manon_Collab_Preview_xxduno.png">
+<meta name="twitter:image" content="https://res.cloudinary.com/xngwwxyv/image/upload/v1791548961/Manon_Let_s-Collab_Preview_uucm2l.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -485,6 +485,8 @@
   .menu-panel .menu-actions .menu-wa:hover{ background:var(--rose); border-color:var(--rose); }
   .menu-panel .menu-actions .menu-mail{ background:transparent; border:1px solid var(--gold); color:var(--gold); }
   .menu-panel .menu-actions .menu-mail:hover{ background:var(--gold); color:#fff; }
+  .menu-panel .menu-actions .menu-ig{ background:transparent; border:1px solid var(--gold); color:var(--gold); }
+  .menu-panel .menu-actions .menu-ig:hover{ background:var(--gold); color:#fff; }
   @media (max-width:520px){ .topbar-social a:not(.icon-link){ display:none; } }
   @media (prefers-reduced-motion:reduce){ .menu-panel, .menu-backdrop{ transition:none; } }
 
@@ -499,7 +501,7 @@
   .review .who strong{ color:#8a8072; font-weight:700; }
 
   /* ---------- contact cta ---------- */
-  .contact-cta{ text-align:center; padding:20px 0 120px; }
+  .contact-cta{ text-align:center; padding:20px 0 0; }
   .book{ position:relative; max-width:860px; margin:0 auto; padding:56px 44px 48px; border-radius:28px; background:linear-gradient(160deg,#3b2f25 0%,#2a211a 100%); color:#fbf7f0; box-shadow:0 24px 60px rgba(51,42,34,.28), 0 0 0 2px var(--gold); overflow:hidden; }
   .book::before{ content:""; position:absolute; top:-120px; right:-120px; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle,rgba(201,138,59,.45),rgba(201,138,59,0) 70%); pointer-events:none; }
   .book > *{ position:relative; }
@@ -547,7 +549,7 @@
     .book-give, .book-get{ padding:20px; }
   }
   @media (max-width:640px){
-    .contact-cta{ padding:50px 0 90px; }
+    .contact-cta{ padding:50px 0 0; }
     .contact-buttons{ flex-direction:column; align-items:stretch; }
     .contact-btn{ justify-content:center; }
   }
@@ -561,6 +563,9 @@
   }
   footer p{ margin:0; font-size:13.5px; color:var(--ink-soft); }
   footer a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line); }
+
+  .closing-banner{ padding:64px 0; text-align:center; }
+  .closing-banner img{ display:inline-block; width:100%; max-width:620px; height:auto; border-radius:14px; }
 
   /* ---------- responsive ---------- */
   @media (max-width:860px){
@@ -866,6 +871,7 @@
     <div class="menu-actions">
       <a class="menu-wa" href="https://wa.me/31620812400" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.32A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18a7.9 7.9 0 0 1-4.06-1.12l-.29-.17-3 .78.8-2.93-.19-.3A7.93 7.93 0 1 1 20 12c0 4.41-3.59 8-8 8zm4.34-5.9c-.24-.12-1.4-.69-1.62-.77-.22-.08-.38-.12-.53.12-.16.24-.6.77-.74.93-.14.16-.27.18-.5.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.4-1.31-1.63-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.53-1.28-.73-1.75-.19-.46-.39-.4-.53-.4-.14-.01-.29-.01-.45-.01a.86.86 0 0 0-.63.29c-.22.24-.83.81-.83 1.97 0 1.16.85 2.28.97 2.44.12.16 1.67 2.56 4.05 3.58.57.24 1.01.39 1.35.5.57.18 1.08.16 1.49.09.45-.07 1.4-.57 1.6-1.12.2-.55.2-1.02.14-1.12-.06-.1-.22-.16-.46-.28z"/></svg>WhatsApp</a>
       <a class="menu-mail" href="mailto:hello@manonthenomad.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Mail</a>
+      <a class="menu-ig" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>Instagram</a>
     </div>
   </nav>
 
@@ -1193,9 +1199,13 @@
     </div>
   </section>
 
+  <div class="wrap closing-banner">
+    <img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791548961/Manon_Let_s-Collab_Preview_uucm2l.png" alt="Let's collab: Manon, professional freelance content creator" loading="lazy">
+  </div>
+
   <footer class="wrap">
-    <p>© 2026 manonthenomad, Manon and Joe</p>
-    <p><a href="mailto:hello@manonthenomad.com">hello@manonthenomad.com</a> · <a href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@manonthenomad</a></p>
+    <p>© 2026 - manonstop.nl</p>
+    <p><a href="mailto:manonstopmail@gmail.com">manonstopmail@gmail.com</a> · <a href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@manonthenomad</a></p>
   </footer>
 
   <!-- ============ LIGHTBOX ============ -->
