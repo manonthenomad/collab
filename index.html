@@ -282,7 +282,7 @@
   .work-head .work-lead b{ color:var(--ink); font-weight:800; }
   .work-head .work-aud{ margin:8px 0 0; font-size:15px; color:var(--ink-soft); }
   .work.wrap{ max-width:1044px; }
-  .work-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+  .work-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; position:relative; }
   .work-body .loc{ font-size:16px; }
   .work-card{ border:none; border-radius:12px; overflow:visible; background:none; }
   .work-media{
@@ -316,7 +316,7 @@
   .work-body .loc{ font-size:16px; font-weight:600; margin:0 0 10px; font-family:'Playfair Display', serif; }
   .work-body .ig-link{ font-size:12.5px; color:var(--gold); text-decoration:none; display:block; margin-top:6px; }
   .stat-row{ display:flex; align-items:center; gap:16px; }
-  .stat{ font-size:13px; color:var(--ink-soft); display:inline-flex; align-items:center; gap:5px; }
+  .stat{ font-size:13px; color:var(--ink-soft); display:inline-flex; align-items:center; gap:5px; position:relative; }
   .stat svg{ width:19px; height:19px; flex:none; fill:none; stroke:#8e8e8e; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .stat b{ display:inline; font-size:15px; }
   .stat-bar svg{ width:19px; height:19px; flex:none; fill:none; stroke:#fff; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; align-self:center; }
@@ -508,7 +508,7 @@
   .book-give, .book-get{ border-radius:20px; padding:24px 26px; }
   .book-give{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); display:flex; flex-direction:column; justify-content:center; text-align:center; }
   .book-give small, .book-get small{ display:block; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#f0b866; margin-bottom:8px; }
-  .book-give b{ font-family:'Playfair Display',serif; font-size:clamp(30px,4vw,42px); line-height:1.05; color:#fff; }
+  .book-give b{ font-family:'Playfair Display',serif; font-size:clamp(20px,1.9vw,24px); line-height:1.1; color:#fff; }
   .book-give span{ font-size:16px; color:rgba(251,247,240,.82); margin-top:4px; }
   .book-arrow{ align-self:center; font-size:34px; font-weight:800; color:#f0b866; }
   .book-get{ background:#fbf7f0; color:var(--ink); box-shadow:0 10px 30px rgba(0,0,0,.25); }
@@ -879,7 +879,7 @@
   <!-- ============ HERO ============ -->
   <section class="hero wrap">
     <div class="eyebrow"><a href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@<span>manonthenomad</span></a>, on <span class="plain">the</span> road</div>
-    <h1>Your <em>unique</em> stay<br>deserves great <em>content</em></h1>
+    <h1>Your <em>unique</em> experience<br>deserves great <em>content</em></h1>
   </section>
 
   <!-- ============ INTRO ============ -->
@@ -890,12 +890,12 @@
     </div>
     <div class="intro-text">
       <h2>Hi! I'm Manon 👋</h2>
-      <p>Wild at heart, sharp in content. I am a Dutch 30-year old <strong>professional freelance content creator</strong>. As a <strong>former marketing &amp; content manager</strong> for a <strong>5-star hotel</strong> + Michelin restaurant, and a <strong>travel agency</strong>, I now take my <strong>15+ years</strong> experience with me as <strong>creator on the road</strong>. My van is packed up with all my gear, and together with my English boyfriend Joe, we are discovering <strong>Europe&rsquo;s best spots to stay</strong>. We&rsquo;d love to come to you!</p>
+      <p>Wild at heart, sharp in content. I am a Dutch 30-year old <strong>professional freelance content creator</strong>. As a <strong>former marketing &amp; content manager</strong> for a <strong>5-star hotel</strong> + <strong>Michelin-star restaurant</strong>, and a <strong>travel agency</strong>, I now take my <strong>15+ years</strong> experience with me as <strong>creator on the road</strong>. My van is packed up with all my gear, and together with my English boyfriend Joe, we are discovering <strong>Europe&rsquo;s best spots to go to</strong>. We&rsquo;d love to come to you!</p>
       <div class="intro-reach">
         <p class="intro-reach-label">What I offer:</p>
         <ul class="intro-reach-list">
-          <li><em>Social video / UGC</em>, shared on both my &amp; your account</li>
-          <li><em>Photography</em>, that puts your stay in the best light</li>
+          <li><em>Social video / UGC</em> &ndash; shared on both my &amp; your account</li>
+          <li><em>Photography</em> &ndash; that puts your experience in the best light</li>
         </ul>
       </div>
     </div>
@@ -909,15 +909,16 @@
       <article class="pf-item">
         <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Grand Hotel Karel V</h3><p>Fulltime marketing &amp; content manager<br>at 5 star hotel + Michelin-star restaurant</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791273127/Manon_camera_KarelV_nnfiwx.jpg" alt="Manon with camera at Karel V" loading="lazy"></div></div>
         <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791351843/1791351227006_2_hf4coe.jpg" alt="Grand Hotel Karel V 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791359460/1791357550788_2_wmpoyy.jpg" alt="Grand Hotel Karel V 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791351842/1791351730800_2_n4k63r.jpg" alt="Grand Hotel Karel V 5" loading="lazy"></div></div>
+        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791271118/Foodfotografie_KarelV-Karel5_Utrecht_manonstop.nl_gz0xt0.webp" alt="Grand Hotel Karel V 6" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791524656/KarelV-Chefs2_daaut9.jpg" alt="Grand Hotel Karel V 7" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791524395/KarelV-Food_n0tpwo.jpg" alt="Grand Hotel Karel V 8" loading="lazy"></div></div>
         <div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;Manon's photography gave our hotel and restaurant a whole new look. Guests noticed, our online channels took off, and the images keep delivering across our website and campaigns&rdquo;<small>Leo, Director at Grand Hotel Karel V</small></div></div>
       </article>
       <article class="pf-item">
         <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Charlie's Travels</h3><p>Fulltime marketing &amp; content manager<br>at a Dutch travel agency, located in Kenya</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791273129/Manon_camera_Kenya_1_sulgt4.jpg" alt="Manon with camera in Kenya" loading="lazy"></div></div>
-        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791449861/Charlies-Travels_Kenya_Manon2_xdgms3.jpg" alt="Manon in Kenya" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791451926/Charlies-Travels-Kenya_Cheers_nacm3k.jpg" alt="Kenya Cheers" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791449944/ChatGPT_Image_Sep_7_2026_10_54_51_AM_srq2cf_xvxvda.jpg" alt="Kenya 3" loading="lazy"></div></div><div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;Manon's photos captured Kenya exactly as it feels, and the results showed. Her images lifted our campaigns, brought in more enquiries and became the backbone of our marketing&rdquo;<small>Rémon, Charlie's Travels</small></div></div>
+        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791449861/Charlies-Travels_Kenya_Manon2_xdgms3.jpg" alt="Manon in Kenya" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791451926/Charlies-Travels-Kenya_Cheers_nacm3k.jpg" alt="Kenya Cheers" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791449944/ChatGPT_Image_Sep_7_2026_10_54_51_AM_srq2cf_xvxvda.jpg" alt="Kenya 3" loading="lazy"></div></div><div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791524985/IMG_3935_ikak0t.jpg" alt="Kenya 4" loading="lazy" style="object-position:47% 50%"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791524984/Charlies-Travels_Kenya_1_juldzy.jpg" alt="Kenya 5" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791524984/Charlies-Travels_Kenya_6_xw1rpi.jpg" alt="Kenya 6" loading="lazy" style="object-position:58% 50%"></div></div><div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;Manon's photos captured Kenya exactly as it feels, and the results showed. Her images lifted our campaigns, brought in more enquiries and became the backbone of our marketing&rdquo;<small>Rémon, Charlie's Travels</small></div></div>
       </article>
       <article class="pf-item">
-        <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Mawimbi restaurant</h3><p>Freelance content creation<br>for restaurant</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791277055/DRB_0210_mnc2ss.jpg" alt="Manon at work" loading="lazy" style="object-position:50% 0%;transform:scale(1.7);transform-origin:58% 24%"></div></div>
-        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272872/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_59_c2t2ys.jpg" alt="Mawimbi restaurant 7" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272850/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_40_llr23d.jpg" alt="Mawimbi restaurant 2" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272852/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_14_qyoghe.jpg" alt="Mawimbi restaurant 1" loading="lazy"></div></div>
+        <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Mawimbi restaurant</h3><p>Freelance content creation<br>for restaurant</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791277055/DRB_0210_mnc2ss.jpg" alt="Manon at work" loading="lazy" style="object-position:50% 0%;transform:translateY(-4%) scale(1.7);transform-origin:58% 24%"></div></div>
+        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272872/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_59_c2t2ys.jpg" alt="Mawimbi restaurant 7" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272850/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_40_llr23d.jpg" alt="Mawimbi restaurant 2" loading="lazy" style="object-position:53% 50%"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272852/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_14_qyoghe.jpg" alt="Mawimbi restaurant 1" loading="lazy"></div></div><div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272849/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_29_bpwqbt.jpg" alt="Mawimbi restaurant 3" loading="lazy" style="object-position:42% 50%"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272851/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_13_xux4hx.jpg" alt="Mawimbi restaurant 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791272850/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_58_jemdi5.jpg" alt="Mawimbi restaurant 5" loading="lazy"></div></div>
         <div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;We were so happy with the photos Manon made for the opening of our restaurant. Every dish looked incredible, and they gave our launch exactly the first impression we hoped for&rdquo;<small>Carlos Espindola, Head Chef at Mawimbi</small></div></div>
         </article>
     </div>
@@ -996,7 +997,7 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1788532215/VID_20260904_072749_450_bsl_exported_2366_ysqfb2.jpg" onclick="openVideoModal(this)">
+          <video poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1788532215/VID_20260904_072749_450_bsl_exported_2366_ysqfb2.jpg" onclick="openVideoModal(this)" style="object-position:50% 34%">
             <source src="https://res.cloudinary.com/xngwwxyv/video/upload/f_mp4,vc_h264,ac_aac,q_auto/v1788529873/TheBreathworkshop-Fonzie_Adem-Studio-Rondleiding_vitjnr.mp4" type="video/mp4">
           </video>
         </div>
@@ -1077,8 +1078,7 @@
     <div class="map-inner">
       <div class="map-text">
         <div class="subtitle">Every place I fall for,<br>ends up on the map</div>
-        <p>Say yes to hosting Joe and me, and your spot gets <span class="gold">pinned on my map</span>, giving your location long-term exposure to an active audience of European travelers looking for their next stay.</p>
-        <p>While my map originally started with camper nature spots, I am now adding regular accommodations too: comfortable places to stay and recharge from all the travelling</p>
+        <p>Say yes to welcoming Joe and me, and your spot gets <span class="gold">pinned on my map</span>, giving your location long-term exposure to an active audience of European travelers looking for the best travel recommendations.</p>
       </div>
       <a class="map-graphic" href="https://spots.manonstop.nl/" target="_blank" rel="noopener">
         <img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1785326671/Preview_Manon_s-Campspots_fdwpxa.png" alt="Manon's Campspots interactive map preview">
@@ -1156,24 +1156,23 @@
   <section class="contact-cta wrap" id="contact">
     <div class="book">
       <span class="book-badge">The deal</span>
-      <h2>Let's <em>book</em> your stay!</h2>
-      <p class="book-lead">Joe and I would love to visit your accommodation. Here's how it works:</p>
+      <h2>Let's <em>team up</em>!</h2>
+      <p class="book-lead">Joe and I would love to visit your place. Here's how it works:</p>
       <div class="book-grid">
         <div class="book-give">
           <small>You offer</small>
-          <b>2 nights</b>
-          <span>for 2 people</span>
+          <b>Something special</b>
+          <span>for 2 people: a stay, dinner, tasting or activity</span>
         </div>
         <div class="book-arrow" aria-hidden="true">&rarr;</div>
         <div class="book-get">
           <small>You get</small>
           <ul>
-            <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Social video / UGC</b>, on <a class="book-ig" href="https://www.instagram.com/manonthenomad/" target="_blank" rel="noopener">@manonthenomad</a> with 200k views per month</span></li>
-            <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Professional photography pack</b>, that puts your stay in the best light</span></li>
+            <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Social video / UGC</b><br>on <a class="book-ig" href="https://www.instagram.com/manonthenomad/" target="_blank" rel="noopener">@manonthenomad</a> with 200k views per month + <b>collab post</b> on your account</span></li>
+            <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Professional photography pack</b><br>that puts your place in the best light</span></li>
           </ul>
         </div>
       </div>
-      <p class="book-extra"><b>Want to make it extra special?</b> Treat us to a glass of wine, breakfast, dinner or another activity, and it ends up in the photos and video too!</p>
       <div class="contact-buttons">
         <a class="contact-btn primary" href="https://wa.me/31620812400" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.32A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18a7.9 7.9 0 0 1-4.06-1.12l-.29-.17-3 .78.8-2.93-.19-.3A7.93 7.93 0 1 1 20 12c0 4.41-3.59 8-8 8zm4.34-5.9c-.24-.12-1.4-.69-1.62-.77-.22-.08-.38-.12-.53.12-.16.24-.6.77-.74.93-.14.16-.27.18-.5.06-.24-.12-1-.37-1.9-1.17-.7-.62-1.18-1.4-1.31-1.63-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.53-1.28-.73-1.75-.19-.46-.39-.4-.53-.4-.14-.01-.29-.01-.45-.01a.86.86 0 0 0-.63.29c-.22.24-.83.81-.83 1.97 0 1.16.85 2.28.97 2.44.12.16 1.67 2.56 4.05 3.58.57.24 1.01.39 1.35.5.57.18 1.08.16 1.49.09.45-.07 1.4-.57 1.6-1.12.2-.55.2-1.02.14-1.12-.06-.1-.22-.16-.46-.28z"/></svg>
