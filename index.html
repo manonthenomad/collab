@@ -38,8 +38,7 @@
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth; overflow-x:hidden;}
-  @supports (overflow:clip){ html, body{ overflow-x:clip; } }
+  html{scroll-behavior:smooth;}
   body{
     margin:0;
     background:var(--white);
@@ -49,6 +48,7 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden; max-width:100%;
   }
+  @supports (overflow:clip){ body{ overflow-x:clip; } }
 
   h1,h2{font-family:'Playfair Display', serif; font-weight:600; margin:0;}
   .gold{color:var(--gold);}
@@ -218,35 +218,35 @@
   .cta.ghost:hover{ background:var(--gold); color:var(--white); }
 
   /* ---------- why section ---------- */
-  .why{ border-top:1px solid var(--line); padding:76px 0; }
-  .why h2{ font-size:clamp(24px,3vw,30px); margin:0 0 44px; }
+  .why{ padding:36px 0 40px; }
+  .why h2{ font-size:clamp(21px,2.6vw,26px); margin:0 0 20px; text-align:center; }
   .why-grid{
-    display:flex; flex-direction:column; gap:16px;
+    display:flex; flex-direction:column; gap:10px;
     max-width:720px; margin:0 auto;
   }
   .why-col{
     background:var(--cream);
     border:1px solid var(--line);
-    border-radius:18px;
+    border-radius:14px;
     overflow:hidden;
   }
   .why-toggle{
-    width:100%; display:flex; align-items:center; gap:18px;
-    padding:22px 26px; background:none; border:none; cursor:pointer;
+    width:100%; display:flex; align-items:center; gap:14px;
+    padding:12px 20px; background:none; border:none; cursor:pointer;
     text-align:left; font-family:inherit;
   }
   .why-icon{
-    width:44px; height:44px; flex-shrink:0;
+    width:34px; height:34px; flex-shrink:0;
     border-radius:50%;
     background:var(--white);
     border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center;
   }
-  .why-icon svg{ width:20px; height:20px; color:var(--gold); }
+  .why-icon svg{ width:16px; height:16px; color:var(--gold); }
   .why-toggle h3{
-    margin:0; font-size:16.5px; font-weight:700;
+    margin:0; font-size:14.5px; font-weight:700;
     font-family:'Nunito', sans-serif; color:var(--ink); flex:1;
-    line-height:1.4;
+    line-height:1.35;
   }
   .why-toggle h3 .gold{ font-weight:800; }
   .why-chevron{
@@ -261,15 +261,19 @@
   .why-col.open .why-body{ grid-template-rows:1fr; }
   .why-body-inner{ overflow:hidden; }
   .why-body-inner p{
-    margin:0; padding:0 26px 24px 88px;
-    font-size:15px; color:var(--ink-soft); line-height:1.65;
+    margin:0; padding:0 20px 16px 68px;
+    font-size:14px; color:var(--ink-soft); line-height:1.65;
   }
+  .why-cta{ display:flex; flex-direction:column; align-items:center; gap:2px; margin:22px auto 0; width:max-content; max-width:100%; text-align:center; font-family:'Playfair Display',serif; font-weight:600; font-size:clamp(17px,2vw,20px); color:var(--gold); text-decoration:none; }
+  .why-cta:hover{ text-decoration:underline; }
+  .why-cta svg{ flex:none; }
   @media (max-width:600px){
-    .why-toggle{ padding:16px 18px; gap:12px; }
-    .why-icon{ width:36px; height:36px; }
-    .why-icon svg{ width:16px; height:16px; }
-    .why-toggle h3{ font-size:14.5px; }
-    .why-body-inner p{ padding:0 18px 18px 66px; font-size:13.5px; }
+    .why{ padding:28px 0 32px; }
+    .why-toggle{ padding:10px 14px; gap:10px; }
+    .why-icon{ width:30px; height:30px; }
+    .why-icon svg{ width:14px; height:14px; }
+    .why-toggle h3{ font-size:13.5px; }
+    .why-body-inner p{ padding:0 14px 14px 54px; font-size:13px; }
   }
 
   /* ---------- portfolio ---------- */
@@ -647,6 +651,7 @@
   .can-lead + .ba-wrap{ margin-top:32px; }
   .can-note{ text-align:center; color:var(--ink-soft); margin:36px 0 0; font-size:15px; }
   .extras{ padding-top:56px; padding-bottom:56px; border-top:1px solid var(--line); text-align:center; }
+  .contact-cta{ border-top:1px solid var(--line); padding-top:56px; }
   .extras h2{ margin-bottom:18px; }
   .extras p{ max-width:560px; margin:0 auto 28px; font-size:17px; line-height:1.7; color:var(--ink-soft); }
   @media (max-width:600px){ .can-grid{ grid-template-columns:1fr; } .timeline{ padding-left:52px; } .tl-item::before{ left:-46px; } .timeline::before{ left:19px; } }
@@ -720,7 +725,7 @@
   @media (max-width:700px){
     .pf{ gap:56px; }
     .pf-me{ width:76px; height:76px; }
-    .pf .tl-photos, .pf .tl-photos-two, .pf .tl-more .tl-photos{ display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:10px; scrollbar-width:none; }
+    .pf .tl-photos, .pf .tl-photos-two, .pf .tl-more .tl-photos{ display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; gap:10px; scrollbar-width:none; }
     .pf .tl-photos::-webkit-scrollbar{ display:none; }
     .pf .tl-photos .ph{ flex:0 0 78%; scroll-snap-align:start; }
   }
@@ -784,9 +789,13 @@
 
   /* social videos: swipe sideways on mobile, like the photos */
   @media (max-width:700px){
-    .work-grid{ display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; gap:10px; scrollbar-width:none; }
+    .work-grid{ display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; gap:10px; scrollbar-width:none; }
     .work-grid::-webkit-scrollbar{ display:none; }
     .work-grid > .work-card{ flex:0 0 78%; scroll-snap-align:start; }
+    /* alleen de play-knop opent de video, de rest van het veld is voor schuiven */
+    .work-grid .work-media{ cursor:default; }
+    .work-grid .work-media video{ pointer-events:none; }
+    .work-grid .work-media .play-btn{ pointer-events:auto; cursor:pointer; }
     .work-grid > .reveal{ opacity:1; transform:none; transition:none; }
     .work-body .loc{ font-size:16px; }
     .stat{ font-size:13px; }
@@ -797,9 +806,6 @@
   .work-body .just-posted{ display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:999px; background:var(--gold); color:#fff; font-family:'Nunito',sans-serif; font-weight:800; font-size:17px; letter-spacing:.02em; text-decoration:none; box-shadow:0 4px 14px rgba(0,0,0,.18); }
   .work-body .loc.loc-jp{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; }
   .work-body .just-posted:hover{ filter:brightness(1.08); }
-  .jp-dot{ width:9px; height:9px; border-radius:50%; background:#fff; box-shadow:0 0 0 0 rgba(255,255,255,.8); animation:jpPulse 1.6s ease-out infinite; }
-  @keyframes jpPulse{ 0%{ box-shadow:0 0 0 0 rgba(255,255,255,.85); } 100%{ box-shadow:0 0 0 9px rgba(255,255,255,0); } }
-  @media (prefers-reduced-motion:reduce){ .jp-dot{ animation:none; } }
   .jp-note{ font-size:13px; font-weight:700; color:var(--ink-soft); margin:2px 0 8px; }
   .work-grid .work-media{ aspect-ratio:4/5; }
   .work-sub{ text-align:center; font-family:'Playfair Display',serif; font-size:clamp(20px,2.4vw,24px); font-weight:600; margin:0 0 20px; color:var(--ink); }
@@ -830,6 +836,22 @@
   .work-body .stat-bar b{ font-size:19px; font-weight:800; }
   .work-body .stat-line{ display:flex; align-items:center; flex-wrap:wrap; gap:8px 14px; margin:0 0 8px; }
   .work-body .stat-line .stat-bar{ margin:0; }
+
+  /* views-balk naast de titel met rustige gouden beweging */
+  .work-body .jp-title-row{ display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; }
+  /* kaart met collab-balk: titel en cijferregel op dezelfde hoogte als bij de andere video's */
+  .work-body .loc.loc-tight{ flex-wrap:nowrap; }
+  .work-body .loc-tight .just-posted{ align-self:flex-start; margin:0 0 -16px; white-space:nowrap; flex:none; }
+  .work-body .stat-line.stat-line-top{ align-items:flex-start; }
+  .work-body .stat-line-top .stat-bar{ margin-bottom:-14px; }
+  .stat-soon{ min-height:19px; color:#8e8e8e; font-size:15px; font-weight:700; }
+  .work-body .stat-live{ position:relative; overflow:hidden; animation:viewsBreath 3.6s ease-in-out infinite; }
+  .work-body .stat-live b{ display:inline-block; transform-origin:center; animation:viewsNumber 3.6s ease-in-out infinite; }
+  .work-body .stat-live::after{ content:""; position:absolute; top:0; bottom:0; left:-60%; width:40%; background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent); transform:skewX(-20deg); animation:viewsSheen 5.4s ease-in-out infinite; pointer-events:none; }
+  @keyframes viewsBreath{ 0%,100%{ transform:scale(1); box-shadow:0 4px 14px rgba(0,0,0,.18), 0 0 0 0 color-mix(in srgb, var(--gold) 0%, transparent); } 50%{ transform:scale(1.05); box-shadow:0 8px 22px rgba(0,0,0,.22), 0 0 0 8px color-mix(in srgb, var(--gold) 22%, transparent); } }
+  @keyframes viewsNumber{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.16); } }
+  @keyframes viewsSheen{ 0%,55%{ left:-60%; } 85%,100%{ left:130%; } }
+  @media (prefers-reduced-motion:reduce){ .work-body .stat-live, .work-body .stat-live b, .work-body .stat-live::after{ animation:none; } }
 
 
   /* deal overview inside intro */
@@ -885,9 +907,9 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <ul>
+      <li><a href="#why">Why <span class="gold">@manonthenomad</span></a></li>
       <li><a href="#work">Social Video / UGC</a></li>
       <li><a href="#story">Photography</a></li>
-      <li><a href="#why">Why <span class="gold">@manonthenomad</span></a></li>
       <li><a href="#contact">The offer</a></li>
     </ul>
     <div class="menu-actions">
@@ -917,7 +939,7 @@
   <section class="intro wrap">
     <div class="intro-photo">
       <img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1788526502/Manon_Joe_1_hzfcxd.png" alt="Manon & Joe">
-      <p class="intro-photo-line"><a href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@manonthenomad</a>, on the road &ndash; <strong>200k views per month</strong></p>
+      <p class="intro-photo-line"><a href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@manonthenomad</a>, on the road &ndash; <strong>1.2M views in 24 hours</strong></p>
     </div>
     <div class="intro-text">
       <h2>Hi! I'm Manon 👋</h2>
@@ -926,12 +948,90 @@
         <p class="intro-reach-label">What I offer:</p>
         <ul class="intro-reach-list">
           <li><em>Social video / UGC</em> &ndash; shared on both my &amp; your account</li>
-          <li><em>Photography</em> &ndash; that puts your experience in the best light</li>
+          <li><em>Photography</em> &ndash; that puts your experience in the best light, ready to use on your own website &amp; channels</li>
         </ul>
       </div>
     </div>
   </section>
 
+
+  <!-- ============ WHY ============ -->
+  <section class="why wrap" id="why">
+    <h2>Why <a class="ig-inline" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@<span class="gold">manon</span>the<span class="gold">nomad</span></a>?</h2>
+
+    <div class="why-grid">
+      <div class="why-col">
+        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
+          <span class="why-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 14.9 8.9 21.8 9.6 16.6 14.2 18.1 21 12 17.5 5.9 21 7.4 14.2 2.2 9.6 9.1 8.9"/></svg>
+          </span>
+          <h3><span class="gold">Spotlight</span>: real content that puts your place in front of the right travelers</h3>
+          <span class="why-chevron">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="why-body">
+          <div class="why-body-inner">
+            <p>Your place gets put in the spotlight in the best way, with real content that reaches active travelers who save unique places for their next trip. You get professional photos and video to use on your own website and channels, a collab post on my account, and a pin on my map, so people keep finding you long after the posts.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-col">
+        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
+          <span class="why-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 6"/><polyline points="14 6 21 6 21 13"/></svg>
+          </span>
+          <h3><span class="gold">Expertise</span>: 15+ years marketing, photography &amp; content, for 40+ brands</h3>
+          <span class="why-chevron">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="why-body">
+          <div class="why-body-inner">
+            <p>With over 15 years of hands-on experience in photography, video content creation, and social media strategy, I know exactly what catches the eye. I don't just shoot pretty pictures and videos. I capture your place through a strategic marketing lens to create imagery that actually drives bookings and reservations.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-col">
+        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
+          <span class="why-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </span>
+          <h3><span class="gold">On-location</span>: we travel to you in our campervan with all the gear</h3>
+          <span class="why-chevron">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="why-body">
+          <div class="why-body-inner">
+            <p>Joe and I travel full-time across Europe in our campervan, making it effortless to capture your place on-site. I bring all my professional gear directly to your doorstep, no complex setup or logistics required</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-col">
+        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
+          <span class="why-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>
+          </span>
+          <h3><span class="gold">Audience</span>: 25-40 year old European adventurers, roadtrippers &amp; nomads</h3>
+          <span class="why-chevron">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </button>
+        <div class="why-body">
+          <div class="why-body-inner">
+            <p>My community mainly consists of active 25–40 year old roadtrippers, nature lovers, couples and nomads, mostly Dutch and German and mostly without kids, who actively save unique places for their next trip. My high-engagement video content regularly reaches 100k+ views across platforms, and my latest video reached Germany as its largest group (23.8%). Many of them travel by camper or van, just like us, and love to treat themselves to a special night, a cabin in nature or a great dinner along the way.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="why-cta" href="#work">Check out examples and reviews!
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+  </section>
 
   <!-- ============ PORTFOLIO ============ -->
   <section class="work wrap" id="work">
@@ -943,26 +1043,25 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video poster="https://res.cloudinary.com/xngwwxyv/video/upload/so_11/v1791730422/VID_20261011_064424_253_bsl_blqfyz.jpg" onclick="openVideoModal(this)">
+          <video preload="none" poster="https://res.cloudinary.com/xngwwxyv/video/upload/so_10.6/v1791730422/VID_20261011_064424_253_bsl_blqfyz.jpg" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/xngwwxyv/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1791730422/VID_20261011_064424_253_bsl_blqfyz.mp4" type="video/mp4">
           </video>
         </div>
       </div>
       <div class="work-side">
         <div class="work-side-top">
-          <a class="work-handle" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@manonthenomad</a>
-          <p class="work-lead">Reaching <b>200k views per month!</b></p>
-          <p class="work-aud">Audience: 25-40 year old travellers from Europe</p>
+          <p class="work-lead"><b>New fast growing:</b> <a class="work-handle" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@manonthenomad</a></p>
+          <p class="work-aud">Audience: 25-40 year old travellers from Europe, mostly Dutch &amp; German</p>
         </div>
         <div class="work-body">
-          <p class="loc loc-jp"><a class="just-posted" href="https://www.instagram.com/reel/DeXCesjvqWD/" target="_blank" rel="noopener"><span class="jp-dot" aria-hidden="true"></span>Just posted!</a> <a class="loc-link" href="https://www.instagram.com/reel/DeXCesjvqWD/" target="_blank" rel="noopener">City Mostar Tips</a></p>
-          <p class="jp-note">Results in only <u style="text-decoration-thickness:2px;text-underline-offset:4px;">12 hours</u>:</p>
+          <p class="loc loc-jp"><span class="jp-title-row"><a class="loc-link" href="https://www.instagram.com/reel/DeXCesjvqWD/" target="_blank" rel="noopener">City Mostar Tips</a> <a class="just-posted" href="https://www.instagram.com/reel/DeXCesjvqWD/" target="_blank" rel="noopener">Just posted!</a></span></p>
+          <p class="jp-note">Results in <u style="text-decoration-thickness:2px;text-underline-offset:4px;">24 hours</u>:</p>
           <div class="stat-line">
-            <p class="stat-bar" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>540k</b><span class="sr">Views</span></p>
+            <span class="stat-bar stat-live" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>1.2M</b><span class="sr">Views</span></span>
             <div class="stat-row">
-              <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>47.5k</b><span class="sr">Likes</span></div>
-              <div class="stat" title="Comments"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 17.9A9.3 9.3 0 1 0 12 21.3c1.4 0 2.7-.3 3.9-.9l4.3 1.2-1.5-4.7z" transform="translate(0 -.3)"/></svg><b>57</b><span class="sr">Comments</span></div>
-              <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>8.5k</b><span class="sr">Saves</span></div>
+              <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>112k</b><span class="sr">Likes</span></div>
+              <div class="stat" title="Comments"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 17.9A9.3 9.3 0 1 0 12 21.3c1.4 0 2.7-.3 3.9-.9l4.3 1.2-1.5-4.7z" transform="translate(0 -.3)"/></svg><b>138</b><span class="sr">Comments</span></div>
+              <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>19.6k</b><span class="sr">Saves</span></div>
             </div>
           </div>
         </div>
@@ -974,18 +1073,15 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video poster="https://res.cloudinary.com/xngwwxyv/video/upload/so_6/v1791321921/VID_20261006_100132_637_bsl_ragbkc.jpg" onclick="openVideoModal(this)">
-            <source src="https://res.cloudinary.com/xngwwxyv/video/upload/f_mp4,vc_h264,ac_aac,q_auto/v1791321921/VID_20261006_100132_637_bsl_ragbkc.mp4" type="video/mp4">
+          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/video/upload/so_2.2/v1792061719/MNE_villa-view.jpg" onclick="openVideoModal(this)">
+            <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1792061719/MNE_villa-view.mp4" type="video/mp4">
+            <source src="https://res.cloudinary.com/qsslhlqm/video/upload/v1792061719/MNE_villa-view.mp4" type="video/mp4">
           </video>
         </div>
         <div class="work-body">
-          <p class="loc loc-jp"><a class="loc-link" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">Bosnia Camping</a> <a class="just-posted" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener"><span class="jp-dot" aria-hidden="true"></span>Just posted!</a></p>
-          <p class="jp-note">Results in only <u style="text-decoration-thickness:2px;text-underline-offset:4px;">24 hours</u>:</p>
+          <p class="loc loc-jp loc-tight"><a class="loc-link" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">Villa in Montenegro</a> <span class="just-posted">Now in collab</span></p>
           <div class="stat-row">
-            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>35k</b><span class="sr">Views</span></div>
-            <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>3.3k</b><span class="sr">Likes</span></div>
-            <div class="stat" title="Comments"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 17.9A9.3 9.3 0 1 0 12 21.3c1.4 0 2.7-.3 3.9-.9l4.3 1.2-1.5-4.7z" transform="translate(0 -.3)"/></svg><b>24</b><span class="sr">Comments</span></div>
-            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>535</b><span class="sr">Saves</span></div>
+            <span class="stat stat-soon">Results: posted soon</span>
           </div>
         </div>
       </div>
@@ -993,7 +1089,25 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video poster="https://res.cloudinary.com/xngwwxyv/video/upload/so_8/v1791453625/Camping-Video_ipmx3n.jpg" onclick="openVideoModal(this)">
+          <video preload="none" poster="https://res.cloudinary.com/xngwwxyv/video/upload/so_6/v1791321921/VID_20261006_100132_637_bsl_ragbkc.jpg" onclick="openVideoModal(this)">
+            <source src="https://res.cloudinary.com/xngwwxyv/video/upload/f_mp4,vc_h264,ac_aac,q_auto/v1791321921/VID_20261006_100132_637_bsl_ragbkc.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="work-body">
+          <p class="loc loc-jp"><a class="loc-link" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">Bosnia Camping</a></p>
+          <div class="stat-row">
+            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>43.2k</b><span class="sr">Views</span></div>
+            <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>3.7k</b><span class="sr">Likes</span></div>
+            <div class="stat" title="Comments"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 17.9A9.3 9.3 0 1 0 12 21.3c1.4 0 2.7-.3 3.9-.9l4.3 1.2-1.5-4.7z" transform="translate(0 -.3)"/></svg><b>25</b><span class="sr">Comments</span></div>
+            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>604</b><span class="sr">Saves</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-media">
+          <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+          <video preload="none" poster="https://res.cloudinary.com/xngwwxyv/video/upload/so_8/v1791453625/Camping-Video_ipmx3n.jpg" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/xngwwxyv/video/upload/f_mp4,vc_h264,ac_aac,q_auto/v1791453625/Camping-Video_ipmx3n.mp4" type="video/mp4">
           </video>
         </div>
@@ -1011,28 +1125,13 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1788532215/VID_20260904_072749_450_bsl_exported_2366_ysqfb2.jpg" onclick="openVideoModal(this)" style="object-position:50% 34%">
-            <source src="https://res.cloudinary.com/xngwwxyv/video/upload/f_mp4,vc_h264,ac_aac,q_auto/v1788529873/TheBreathworkshop-Fonzie_Adem-Studio-Rondleiding_vitjnr.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="work-body">
-          <p class="loc"><a class="loc-link" href="https://www.instagram.com/thebreathworkshop.nl/" target="_blank" rel="noopener">Breathwork Studio, Utrecht</a></p>
-          <p class="jp-note">One of the 8 videos I made for their account</p>
-          <p class="status-note">Bookings Now Full!</p>
-        </div>
-      </div>
-
-
-      <div class="work-card">
-        <div class="work-media">
-          <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1784816979/Campspots-Compilation-01_bwsjgt.jpg" onclick="openVideoModal(this)">
+          <video preload="none" poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1784816979/Campspots-Compilation-01_bwsjgt.jpg" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/xngwwxyv/video/upload/v1784892690/Campspots-Compilation-01_aqvo8y.mp4" type="video/mp4">
           </video>
         </div>
         <div class="work-body">
           <p class="loc"><a class="loc-link" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">Roadtrip Route Compilation</a></p>
-          <div class="stat-line">
+          <div class="stat-line stat-line-top">
             <p class="stat-bar" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>97K</b><span class="sr">Views</span></p>
             <div class="stat-row">
               <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>2k</b><span class="sr">Likes</span></div>
@@ -1046,7 +1145,7 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1784816897/FR_Milau_kwdinz.jpg" onclick="openVideoModal(this)">
+          <video preload="none" poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1784816897/FR_Milau_kwdinz.jpg" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/xngwwxyv/video/upload/v1784986818/FR_Millau_ctcyi6.mp4" type="video/mp4">
           </video>
         </div>
@@ -1064,7 +1163,7 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1784817109/PT_Swimspots_mrmrji.jpg" onclick="openVideoModal(this)">
+          <video preload="none" poster="https://res.cloudinary.com/xngwwxyv/image/upload/v1784817109/PT_Swimspots_mrmrji.jpg" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/xngwwxyv/video/upload/v1784892993/PT_Swimspots_qxxmcf.mp4" type="video/mp4">
           </video>
         </div>
@@ -1104,22 +1203,6 @@
     </div>
   </section>
 
-  <!-- ============ WHAT I CAN DO ============ -->
-  <section class="can wrap" id="offer">
-    <h2 class="has-sub">A <span class="gold">magic touch</span></h2>
-    <p class="can-lead">Light, color and detail: that&rsquo;s what brings the beauty of your place to life</p>
-    <div class="ba-pair">
-      <div class="ba" style="--pos:50%">
-        <div class="ba-img ba-after"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791301593/Bewerkt_jrejkb.png" alt="Paul and Lettie, after editing" loading="lazy"></div>
-        <div class="ba-img ba-before"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1791301546/paul-en-lettie_zdydnb.jpg" alt="Paul and Lettie, before editing" loading="lazy"></div>
-        <span class="ba-tag ba-tag-l">Before</span><span class="ba-tag ba-tag-r">After</span>
-        <div class="ba-line"><span class="ba-knob">&#8596;</span></div>
-        <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Compare before and after: Paul and Lettie">
-      </div>
-    </div>
-    <p class="can-note">I can help with upgrading existing photography</p>
-  </section>
-
   <!-- ============ TIPS MAP ============ -->
   <section class="map wrap" id="map">
     <h2 class="map-title">My Interactive Tips <span class="gold">Map</span> 📍</h2>
@@ -1132,64 +1215,6 @@
         <img src="https://res.cloudinary.com/xngwwxyv/image/upload/v1785326671/Preview_Manon_s-Campspots_fdwpxa.png" alt="Manon's Campspots interactive map preview">
         <span class="map-cta">🗺️ Open interactive map</span>
       </a>
-    </div>
-  </section>
-
-  <!-- ============ WHY ============ -->
-  <section class="why wrap" id="why">
-    <h2>Why <a class="ig-inline" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@<span class="gold">manon</span>the<span class="gold">nomad</span></a>?</h2>
-
-    <div class="why-grid">
-      <div class="why-col">
-        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
-          <span class="why-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 6"/><polyline points="14 6 21 6 21 13"/></svg>
-          </span>
-          <h3><span class="gold">Expertise</span>: 15+ years marketing strategy &amp; content creation</h3>
-          <span class="why-chevron">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
-        </button>
-        <div class="why-body">
-          <div class="why-body-inner">
-            <p>With over 15 years of hands-on experience in photography, video content creation, and social media strategy, I know exactly what catches the eye. I don't just shoot pretty pictures and videos. I capture your stay through a strategic marketing lens to create imagery that actually drives bookings.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="why-col">
-        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
-          <span class="why-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          </span>
-          <h3><span class="gold">On-location</span>: Joe and I travel to you in our campervan with all the gear</h3>
-          <span class="why-chevron">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
-        </button>
-        <div class="why-body">
-          <div class="why-body-inner">
-            <p>Joe and I travel full-time across Europe in our campervan, making it effortless to capture your stay on-site. I bring all my professional gear directly to your doorstep, no complex travel or hotel logistics required</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="why-col">
-        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
-          <span class="why-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>
-          </span>
-          <h3><span class="gold">Audience</span>: 25-40 year old kid-free adventurers, roadtrippers &amp; digital nomads</h3>
-          <span class="why-chevron">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
-        </button>
-        <div class="why-body">
-          <div class="why-body-inner">
-            <p>My community mainly consists of active 25–40 year old European roadtrippers, nature lovers, couples and digital nomads, mostly without kids, who actively save unique stays for their next trip. My high-engagement video content regularly reaches 100k+ views across platforms.</p>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -1216,8 +1241,9 @@
         <div class="book-get">
           <small>You get</small>
           <ul>
-            <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Social video / UGC</b><br>on <a class="book-ig" href="https://www.instagram.com/manonthenomad/" target="_blank" rel="noopener">@manonthenomad</a> with 200k views per month + <b>collab post</b> on your account</span></li>
+            <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Social video / UGC</b><br>on <a class="book-ig" href="https://www.instagram.com/manonthenomad/" target="_blank" rel="noopener">@manonthenomad</a>, where videos reach up to 1.2M views + <b>collab post</b> on your account</span></li>
             <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Professional photography pack</b><br>that puts your place in the best light</span></li>
+          <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Yours to use</b><br>all photos &amp; video on your own website &amp; channels</span></li>
           </ul>
         </div>
       </div>
@@ -1365,7 +1391,12 @@
       const modal = document.getElementById('videoModal');
       const modalVideo = document.getElementById('modalVideo');
       modalVideo.setAttribute('poster', poster || '');
-      modalVideo.querySelector('source').src = source.src;
+      modalVideo.querySelectorAll('source').forEach(function(n){ n.remove(); });
+      video.querySelectorAll('source').forEach(function(n){
+        const c = document.createElement('source');
+        c.src = n.src; c.type = n.type || 'video/mp4';
+        modalVideo.appendChild(c);
+      });
       modalVideo.load();
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
