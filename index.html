@@ -3,6 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!--
+=====================================================================
+BASE RULES FOR AI ASSISTANTS (read this first, apply on every edit)
+=====================================================================
+MEDIA VIA CLOUDINARY: never paste a raw Cloudinary link. Always insert
+transformations after /upload/ so the file is a real, small, mobile and
+desktop friendly format. Keep the cloud name and version number of the
+original link (cloud names in use: qsslhlqm, xngwwxyv).
+
+1. VIDEO (raw uploads can be in an odd container/codec, for example
+   iPhone HEVC/.mov, which gives "wrong IMEI format" or does not play).
+   Always transcode to H.264 + AAC mp4, max 720px wide:
+   https://res.cloudinary.com/<cloud>/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/<version>/<file>.mp4
+   Markup: <video preload="none" playsinline poster="..." onclick="openVideoModal(this)">
+           <source src="..." type="video/mp4"></video>
+   Never autoplay with sound. Never use preload="auto".
+
+2. VIDEO POSTER (still image shown before play, never the video file):
+   https://res.cloudinary.com/<cloud>/image/upload/f_auto,q_auto,w_600,c_limit/<version>/<name>
+   No separate poster? Take a frame from the video:
+   https://res.cloudinary.com/<cloud>/video/upload/so_1,f_jpg,q_auto,w_600,c_limit/<version>/<file>.jpg
+
+3. PHOTOS: always f_auto,q_auto plus c_limit with a max width:
+   - photo grids / portfolio: w_700,c_limit,q_auto,f_auto
+     (keep this exact string: the lightbox script swaps w_700 for w_1800 on click)
+   - intro / larger blocks: w_800 to w_1000
+   - small avatars: w_220
+   - social preview (og:image): f_jpg,q_auto,w_1200,h_630,c_fill
+
+4. SIZE: never show media bigger than needed. No originals, no 4K,
+   no huge widths. Normal and light is the goal.
+
+5. When the user shares a new Cloudinary link: convert it with the rules
+   above, show the converted link, and only place it on the page when
+   the user says where it goes.
+=====================================================================
+-->
 <title>Manon Collab</title>
 <meta name="description" content="Your unique experience deserves great content - Manon - professional freelance content creator">
 
@@ -117,6 +155,8 @@
     animation:reveal 0.9s ease-out 0.35s forwards;
   }
   @keyframes reveal{ to{opacity:1; transform:translateY(0);} }
+  .hero .hero-sub{ margin:6px auto 0; opacity:0; transform:translateY(14px); animation:reveal 0.9s ease-out 0.3s forwards; }
+  @media (prefers-reduced-motion:reduce){ .hero .hero-sub{ animation:none; opacity:1; transform:none; } }
   @media (prefers-reduced-motion: reduce){
     .hero h1, .hero p, .hero .eyebrow{ animation:none; opacity:1; transform:none; }
   }
@@ -139,10 +179,34 @@
   .intro-text .intro-reach-label{ font-family:'Playfair Display',serif; font-weight:700; font-size:19px; color:var(--ink); margin:0 0 8px; }
   .intro-reach-list{ margin:0; padding-left:22px; font-size:17px; line-height:1.7; color:var(--ink-soft); }
   .intro-reach-list li::marker{ color:var(--gold); }
+  .intro-reach-list strong{ color:var(--ink); font-weight:800; }
+  .intro-text .intro-about-list{ margin:0 0 14px; max-width:580px; }
+  .intro-text p, .intro-text .intro-about-list{ font-weight:600; color:#5a4d3f; font-size:15px; max-width:640px; }
+  .intro-text .intro-about-list{ padding-left:20px; }
+
+  /* ---------- numbers band ---------- */
+  .numbers{ background:var(--cream); border-top:1px solid var(--line); padding:24px 0; margin:8px 0 0; }
+  .numbers-grid{ max-width:var(--max); margin:0 auto; padding:0 32px; display:grid; grid-template-columns:repeat(4,1fr); gap:24px; text-align:center; }
+  .num{ display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .num b{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(38px,5vw,56px); line-height:1; color:var(--gold); }
+  .num span small{ font-size:13px; font-weight:500; }
+
+  /* numbers: fade-in + count-up */
+  .num.anim{ opacity:0; transform:translateY(18px); }
+  .num.anim.in{ opacity:1; transform:none; transition:opacity .7s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+  .num b{ display:inline-block; font-variant-numeric:lining-nums tabular-nums; }
+  .num b.done{ animation:num-pop .55s ease-out; }
+  @keyframes num-pop{ 0%{transform:scale(1);} 40%{transform:scale(1.08);} 100%{transform:scale(1);} }
+  .num span{ font-size:15px; line-height:1.4; color:var(--ink-soft); font-weight:600; max-width:170px; }
+  @media (max-width:700px){
+    .numbers{ padding:22px 0; }
+    .numbers-grid{ grid-template-columns:1fr 1fr; gap:20px 16px; padding:0 20px; }
+    .num span{ font-size:14px; }
+  }
 
   /* ---------- intro ---------- */
   .intro{
-    display:grid; grid-template-columns:250px minmax(0,580px); gap:44px; justify-content:center;
+    display:grid; grid-template-columns:250px minmax(0,640px); gap:44px; justify-content:center;
     align-items:center;
     padding:24px 0 44px;
   }
@@ -150,6 +214,20 @@
     position:relative; width:100%; max-width:250px; margin:0 auto;
   }
   .intro-photo img{ width:100%; height:auto; display:block; }
+  /* foto als notitieblaadje aan een (onzichtbare) pin: zwaait zacht heen en weer, hangt even op de uiterste punten */
+  .intro-photo > img{
+    transform-origin:50% 0;
+    animation:note-sway 5s ease-in-out infinite;
+    will-change:transform;
+  }
+  @keyframes note-sway{
+    0%, 8%   { transform:rotate(-2.2deg); }
+    50%, 58% { transform:rotate(2.2deg); }
+    100%     { transform:rotate(-2.2deg); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .intro-photo > img{ animation:none; will-change:auto; }
+  }
   .intro-photo .play{
     position:absolute; bottom:18px; left:18px;
     width:46px; height:46px; border-radius:50%;
@@ -278,6 +356,7 @@
 
   /* ---------- portfolio ---------- */
   .work{ padding:76px 0; border-top:1px solid var(--line); }
+  #receive{ border-top:0; padding-top:56px; }
   .work-head{
     text-align:center;
     margin-bottom:44px;
@@ -293,7 +372,7 @@
   .work-body .loc{ font-size:16px; }
   .work-card{ border:none; border-radius:12px; overflow:visible; background:none; }
   .work-media{
-    aspect-ratio:4/5;
+    aspect-ratio:2/3;
     background:var(--cream);
     display:flex; align-items:center; justify-content:center;
     text-align:center; padding:0;
@@ -303,18 +382,19 @@
   .work-media p{ font-size:13px; color:var(--ink-soft); line-height:1.5; margin:0; }
   .work-media video{ width:100%; height:100%; object-fit:cover; display:block; }
   .play-btn{
-    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-    width:56px; height:56px; border-radius:50%;
-    background:rgba(30,26,22,0.55);
+    position:absolute; top:10px; right:10px; left:auto; transform:none;
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(255,255,255,.92);
     display:flex; align-items:center; justify-content:center;
-    color:var(--white); cursor:pointer; z-index:2;
-    transition:background 0.2s ease;
+    color:var(--ink); cursor:pointer; z-index:4;
+    box-shadow:0 2px 8px rgba(0,0,0,.2);
+    transition:transform .2s ease, background .2s ease;
   }
-  .play-btn:hover{ background:rgba(30,26,22,0.75); }
-  .play-btn svg{ margin-left:3px; }
+  .play-btn:hover{ transform:scale(1.1); background:#fff; }
+  .play-btn svg{ width:15px; height:15px; margin-left:2px; }
   @media (max-width:600px){
-    .play-btn{ width:38px; height:38px; }
-    .play-btn svg{ width:16px; height:16px; }
+    .play-btn{ width:30px; height:30px; top:7px; right:7px; }
+    .play-btn svg{ width:13px; height:13px; }
   }
   .work-body .loc a.loc-link{ color:inherit; text-decoration:none; }
   .work-body .loc a.loc-link:hover{ color:var(--gold); text-decoration:underline; }
@@ -380,7 +460,7 @@
   .photo-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
   .photo-card{
     border-radius:18px; overflow:hidden; border:1px solid var(--line);
-    aspect-ratio:4/5; position:relative;
+    aspect-ratio:2/3; position:relative;
   }
   .photo-card img{ width:100%; height:100%; object-fit:cover; display:block; }
   .expand-btn{
@@ -397,38 +477,6 @@
     .expand-btn{ width:24px; height:24px; top:6px; right:6px; }
     .expand-btn svg{ width:11px; height:11px; }
   }
-
-  /* ---------- tips map ---------- */
-  .map{ padding:76px 0; border-top:1px solid var(--line); }
-  .map-title{ font-size:clamp(24px,3vw,30px); text-align:center; margin:0 0 44px; }
-  .map-inner{ display:grid; grid-template-columns:1fr 0.9fr; gap:56px; align-items:center; }
-  .map-text .subtitle{
-    font-family:'Playfair Display', serif; font-size:clamp(24px,3vw,30px); font-weight:600;
-    line-height:1.3; color:var(--ink); margin:0 0 20px;
-  }
-  .map-text p{ font-size:16.5px; line-height:1.7; color:var(--ink-soft); max-width:460px; margin:0 0 18px; }
-  .map-text .note{
-    font-size:14.5px; color:var(--ink); background:var(--cream);
-    border:1px solid var(--line); border-radius:14px; padding:14px 18px;
-    display:inline-block;
-  }
-  .map-graphic{
-    display:flex; flex-direction:column; align-items:center;
-    gap:18px;
-    text-decoration:none;
-  }
-  .map-graphic img{ width:100%; height:auto; display:block; }
-  .map-graphic .map-cta{
-    background:var(--white); color:var(--ink);
-    font-size:14px; font-weight:700; font-family:'Nunito', sans-serif;
-    padding:10px 20px; border-radius:30px;
-    border:1px solid var(--line);
-    box-shadow:0 6px 18px rgba(30,26,22,0.1);
-    white-space:nowrap;
-    transition:background 0.2s ease;
-  }
-  .map-graphic:hover .map-cta{ background:var(--gold); color:var(--white); border-color:var(--gold); }
-
 
   /* ---------- hamburger menu ---------- */
   .topbar-social{ margin-right:52px; }
@@ -513,7 +561,7 @@
   .contact-cta .book h2{ color:#fff; font-size:clamp(32px,4.6vw,50px); margin:0 0 12px; }
   .contact-cta .book h2 em{ font-style:italic; color:#f0b866; }
   .book-lead{ font-size:17px; color:rgba(251,247,240,.82); max-width:520px; margin:0 auto 30px; }
-  .book-grid{ display:grid; grid-template-columns:minmax(0,.8fr) auto minmax(0,1.5fr); align-items:stretch; gap:18px; text-align:left; margin-bottom:26px; }
+  .book-grid{ display:grid; grid-template-columns:minmax(0,1fr); max-width:620px; margin-left:auto; margin-right:auto; align-items:stretch; gap:18px; text-align:left; margin-bottom:26px; }
   .book-give, .book-get{ border-radius:20px; padding:24px 26px; }
   .book-give{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); display:flex; flex-direction:column; justify-content:center; text-align:center; }
   .book-give small, .book-get small{ display:block; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#f0b866; margin-bottom:8px; }
@@ -573,14 +621,14 @@
 
   /* ---------- responsive ---------- */
   @media (max-width:860px){
-    .intro{ grid-template-columns:minmax(0,580px); justify-content:center; }
+    .intro{ grid-template-columns:minmax(0,640px); justify-content:center; }
     .intro-photo{ max-width:210px; }
-    .map-inner{ grid-template-columns:1fr; }
     .review-grid{ grid-template-columns:1fr 1fr; }
   }
   @media (max-width:600px){
     .intro{ padding-top:12px; }
     .intro-photo{ max-width:220px; margin:0 auto 8px; }
+    .intro-text{ padding-left:14px; padding-right:14px; }
   }
   @media (max-width:700px){
     .work-card{ border:none; border-radius:12px; }
@@ -602,7 +650,7 @@
   :root{ --pink:#c98a3b; }
   .hero{ padding-bottom:20px; }
   .tl{ padding-top:44px; padding-bottom:76px; border-top:1px solid var(--line); }
-  .tl h2,.can h2,.extras h2{ font-size:clamp(24px,3vw,30px); text-align:center; margin:0 0 48px; }
+  .tl h2,.can h2{ font-size:clamp(24px,3vw,30px); text-align:center; margin:0 0 48px; }
   .tl h2{ font-size:clamp(34px,5.4vw,50px); line-height:1.1; }
   .timeline{ position:relative; max-width:720px; margin:0 auto; padding:0 0 0 64px; list-style:none; }
   .timeline::before{
@@ -650,14 +698,11 @@
   .can-lead{ text-align:center; color:var(--ink-soft); max-width:640px; margin:0 auto; font-size:16px; line-height:1.65; }
   .can-lead + .ba-wrap{ margin-top:32px; }
   .can-note{ text-align:center; color:var(--ink-soft); margin:36px 0 0; font-size:15px; }
-  .extras{ padding-top:56px; padding-bottom:56px; border-top:1px solid var(--line); text-align:center; }
   .contact-cta{ border-top:1px solid var(--line); padding-top:56px; }
-  .extras h2{ margin-bottom:18px; }
-  .extras p{ max-width:560px; margin:0 auto 28px; font-size:17px; line-height:1.7; color:var(--ink-soft); }
   @media (max-width:600px){ .can-grid{ grid-template-columns:1fr; } .timeline{ padding-left:52px; } .tl-item::before{ left:-46px; } .timeline::before{ left:19px; } }
   .tl-photos{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; max-width:560px; margin-top:14px; }
   .tl-photos.logos{ grid-template-columns:repeat(4,1fr); }
-  .ph{ background:#e3e3e3; border-radius:12px; aspect-ratio:4/5; }
+  .ph{ background:#e3e3e3; border-radius:12px; aspect-ratio:2/3; }
   .logos .ph{ aspect-ratio:3/2; }
   .tl-cap{ font-size:12.5px; color:var(--ink-soft); margin-top:6px; }
   .tl-more{ display:none; clear:right; }
@@ -785,6 +830,10 @@
     .can-grid.two .can-card p{ font-size:13px; line-height:1.5; }
   }
   .ph{ overflow:hidden; }
+  /* brede foto: even breed als 2 foto's, zelfde hoogte als de rij */
+  .pf .ph.ph-wide{ grid-column:span 2; aspect-ratio:auto; }
+  .pf .ph.ph-wide img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+
   .ph img{ width:100%; height:100%; object-fit:cover; display:block; }
 
   /* social videos: swipe sideways on mobile, like the photos */
@@ -792,10 +841,8 @@
     .work-grid{ display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; gap:10px; scrollbar-width:none; }
     .work-grid::-webkit-scrollbar{ display:none; }
     .work-grid > .work-card{ flex:0 0 78%; scroll-snap-align:start; }
-    /* alleen de play-knop opent de video, de rest van het veld is voor schuiven */
-    .work-grid .work-media{ cursor:default; }
-    .work-grid .work-media video{ pointer-events:none; }
-    .work-grid .work-media .play-btn{ pointer-events:auto; cursor:pointer; }
+    /* tikken op de video opent hem; schuiven blijft gewoon werken */
+    .work-grid .work-media{ cursor:pointer; }
     .work-grid > .reveal{ opacity:1; transform:none; transition:none; }
     .work-body .loc{ font-size:16px; }
     .stat{ font-size:13px; }
@@ -807,9 +854,85 @@
   .work-body .loc.loc-jp{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; }
   .work-body .just-posted:hover{ filter:brightness(1.08); }
   .jp-note{ font-size:13px; font-weight:700; color:var(--ink-soft); margin:2px 0 8px; }
-  .work-grid .work-media{ aspect-ratio:4/5; }
-  .work-sub{ text-align:center; font-family:'Playfair Display',serif; font-size:clamp(20px,2.4vw,24px); font-weight:600; margin:0 0 20px; color:var(--ink); }
+  .work-grid .work-media{ aspect-ratio:2/3; }
+  .work-sub{ display:flex; align-items:center; gap:14px; max-width:980px; margin:0 auto 20px; font-family:'Nunito',sans-serif; font-size:13px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); }
+  .work-sub::before, .work-sub::after{ content:""; flex:1; height:1px; background:var(--line); }
   .work-sub-2{ margin-top:56px; }
+  /* social: intro onder de titel + bovenste rij met 2 uitgelichte video's */
+  .work-head p .work-handle{ display:inline; margin:0; font-size:inherit; }
+  .work-head .work-lead{ font-size:19px; }
+  @media (min-width:701px){
+    .work .work-grid.work-top{ grid-template-columns:repeat(2,minmax(0,1fr)); max-width:calc((980px - 28px) / 3 * 2 + 14px); margin:0 auto 34px; gap:14px; }
+  }
+  .work-grid + .work-grid{ margin-top:14px; }
+  /* What you will receive: viral video left, extra videos + photos right (desktop) */
+  .rx{ display:grid; grid-template-columns:minmax(0,2fr) minmax(0,3fr); gap:14px; align-items:start; max-width:980px; margin:0 auto; }
+  .rx .work-sub{ font-size:12.5px; margin:0 0 12px; gap:10px; letter-spacing:.14em; }
+  /* 1/2/3 headings: same font as the review title (Kruja Albergo Diffuso, Albania:), no gold lines */
+  .rx .work-sub{ display:block; font-family:'Playfair Display',serif; font-weight:700; font-size:21.6px; line-height:1.3; letter-spacing:0; text-transform:none; color:var(--ink); margin:0 0 12px; }
+  .rx .work-sub{ display:flex; align-items:center; justify-content:center; text-align:center; gap:14px; }
+  .rx .work-sub::before, .rx .work-sub::after{ content:""; flex:1; height:1px; background:var(--line); }
+  .rx-viral .work-media{ aspect-ratio:2/3; }
+  .rx-viral .work-body .loc{ font-size:clamp(17px,1.9vw,20px); }
+  .rx > .work-sub{ grid-column:1 / -1; }
+  .rx-rest .work-grid + .work-sub{ margin-top:18px; }
+  .work .rx-rest .work-grid{ max-width:none; margin:0; gap:12px; }
+  .rx-rest .work-grid .work-body .loc{ font-size:14.5px; }
+  .rx-rest .stat-row{ display:flex; flex-wrap:nowrap; gap:10px; }
+  .rx-rest .stat{ font-size:12px; gap:4px; }
+  .rx-rest .stat svg, .rx-rest .stat-bar svg{ width:16px; height:16px; }
+  .rx-rest .stat b{ font-size:13px; }
+  .rx-rest .pf{ display:block; max-width:none; margin:0; }
+  .rx-rest .pf .tl-photos{ margin-top:0; gap:12px; }
+  /* receive: video-badge en cijfers */
+  #receive .rx-badge.work-body{ position:absolute; bottom:12px; right:12px; top:auto; z-index:3; padding:0; pointer-events:none; }
+  #receive .rx-badge .stat-bar{ margin:0; box-shadow:0 4px 14px rgba(30,26,22,.28); }
+  #receive .pf.rx-review{ margin-top:36px; }
+  .rx-review .pf-reviews{ margin-top:0; }
+  #receive .rx-review .pf-reviews{ justify-content:flex-start; }
+  #receive .rx-review .tl-review{ margin-left:0; margin-right:auto; }
+  /* collapsible review, centered */
+  #receive .pf.rx-review{ display:block; }
+  .rx-rev{ max-width:560px; margin:0 auto; text-align:center; }
+  .rx-rev summary{ list-style:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; -webkit-tap-highlight-color:transparent; }
+  .rx-rev summary::-webkit-details-marker{ display:none; }
+  .rx-rev .rv-brace{ display:block; width:min(240px,70%); height:16px; margin-bottom:6px; transform:scaleY(-1); fill:none; stroke:var(--gold); stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+  .rx-rev .rv-title{ font-family:'Playfair Display',serif; font-weight:700; font-size:21.6px; line-height:1.3; color:var(--ink); }
+  .rx-rev .rv-gold{ color:var(--gold); }
+  .rx-rev .rv-date{ font-size:14px; font-weight:700; color:var(--ink-soft); }
+  .rx-rev .rv-stars{ color:var(--gold); font-size:16px; letter-spacing:2px; }
+  .rx-rev .rv-line{ display:inline-flex; align-items:center; justify-content:center; gap:8px; white-space:nowrap; margin-top:4px; }
+  .rx-rev .rv-sep{ color:var(--ink-soft); font-weight:700; }
+  .rx-rev .rv-word{ font-size:14px; font-weight:800; color:var(--ink); }
+  .rx-rev .rv-chev{ flex:none; fill:none; stroke:var(--gold); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; transition:transform .2s ease; }
+  .rx-rev[open] .rv-chev{ transform:rotate(180deg); }
+  .rx-rev summary:hover .rv-word{ text-decoration:underline; text-underline-offset:3px; }
+  .rx-rev .rv-body{ margin:14px auto 0; max-width:440px; padding:0 26px; box-sizing:border-box; text-align:left; font-style:italic; font-size:15px; line-height:1.6; color:#9a9082; }
+  .rx-rev .rv-body p{ margin:0; }
+  .rx-rev .rv-body small{ display:block; font-style:normal; font-size:12.5px; color:#b0a79a; margin-top:8px; }
+  @media (max-width:700px){ .rx-rev .rv-title{ font-size:18px; } }
+  .tl-review .tl-title{ display:block; font-family:'Playfair Display',serif; font-style:normal; font-weight:700; font-size:21.6px; line-height:1.3; color:var(--ink); margin-bottom:6px; }
+  @media (max-width:700px){
+    .rx{ grid-template-columns:1fr; gap:22px; }
+    .rx-viral{ max-width:380px; width:100%; margin:0 auto; }
+    .rx-rest .stat-row{ display:flex; flex-wrap:wrap; gap:10px; }
+    .rx-rest .work-sub + .work-grid + .work-sub{ margin-top:22px; }
+  }
+
+  /* More examples: 4 videos on one row (desktop); mobile keeps the swipe row */
+  @media (min-width:701px){
+    .work .work-grid.work-grid-4{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .work-grid-4 .work-body .loc{ font-size:15px; }
+    .work-grid-4 .stat-row{ gap:8px; flex-wrap:wrap; }
+    .work-grid-4 .stat{ font-size:12px; gap:4px; }
+    .work-grid-4 .stat svg, .work-grid-4 .stat-bar svg{ width:16px; height:16px; }
+    .work-grid-4 .stat b{ font-size:13px; }
+  }
+
+  /* video rows exactly as wide as the photo rows (980px) so thumbnails match */
+  @media (min-width:701px){ .work .work-grid, .work .work-feature{ max-width:980px; margin-left:auto; margin-right:auto; } }
+  #receive .work-feature{ margin-bottom:40px; }
+  #receive .pf{ margin-top:0; }
   /* social: uitgelichte post met uitleg ernaast */
   .work-head{ margin-bottom:30px; }
   .work-feature{ display:grid; grid-template-columns:calc((100% - 28px) / 6 + 7px) calc((100% - 28px) / 3) minmax(0,1fr); align-items:center; margin:0 0 26px; }
@@ -892,6 +1015,180 @@
     .deal-arrow{ transform:rotate(90deg); justify-self:center; font-size:22px; line-height:1; }
     .deal-ctas{ margin-top:0; }
   }
+
+  /* ---------- mobile: What you will receive ---------- */
+  @media (max-width:700px){
+    #receive .rx-viral .work-body .stat-row{ justify-content:center; }
+    #receive .rx-badge.work-body{ bottom:8px; right:8px; top:auto; }
+    #receive .rx-badge .stat-bar{ font-size:12px; padding:5px 10px; gap:5px; }
+    #receive .rx-badge .stat-bar b{ font-size:14px; }
+    #receive .rx-badge .stat-bar svg{ width:14px; height:14px; }
+    /* 1. social videos: 2 x 2 grid, viral + 3 extra videos all the same size */
+    #receive .rx{ grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:10px; row-gap:14px; max-width:none; }
+    #receive .rx > .work-sub{ grid-column:1 / -1; margin:0 0 -2px; }
+    #receive .rx-viral{ max-width:none; width:auto; margin:0; min-width:0; }
+    #receive .rx-rest{ display:contents; }
+    #receive .rx-rest > .work-grid{ display:contents; }
+    #receive .rx-rest > .work-grid > .work-card, #receive .rx-viral > .work-card{ min-width:0; display:block; }
+    #receive .rx-rest .work-media, #receive .rx-viral .work-media{ aspect-ratio:2/3; border-radius:10px; }
+    #receive .rx-rest .work-media video, #receive .rx-viral .work-media video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    /* stats under every video: same size and height so they line up */
+    #receive .rx-viral > .work-body, #receive .rx-rest .work-card > .work-body{ box-sizing:border-box; height:auto; padding:6px 0 0; overflow:visible; margin:0; }
+    #receive .rx-viral .play-btn, #receive .rx-rest .play-btn{ width:28px; height:28px; top:6px; right:6px; }
+    #receive .rx-viral .play-btn svg, #receive .rx-rest .play-btn svg{ width:12px; height:12px; margin-left:2px; }
+    #receive .rx-viral .stat-row, #receive .rx-rest .stat-row{ gap:8px; flex-wrap:nowrap; justify-content:center; white-space:nowrap; }
+    #receive .rx-viral .stat, #receive .rx-rest .stat{ font-size:11px; gap:3px; flex:none; }
+    #receive .rx-viral .stat svg, #receive .rx-rest .stat svg{ width:13px; height:13px; }
+    #receive .rx-viral .stat b, #receive .rx-rest .stat b{ font-size:13px; letter-spacing:0; }
+    /* volgorde: rechtsboven en linksonder omgedraaid (alleen mobiel) */
+    #receive .rx > .work-sub:first-child{ order:0; }
+    #receive .rx-viral{ order:1; }
+    #receive .rx-rest > .work-grid > .work-card:nth-child(2){ order:2; }
+    #receive .rx-rest > .work-grid > .work-card:nth-child(1){ order:3; }
+    #receive .rx-rest > .work-grid > .work-card:nth-child(3){ order:4; }
+    #receive .rx-rest > .work-sub, #receive .rx-rest > .pf{ order:5; }
+    /* 2. photography heading + row span the full width */
+    #receive .rx-rest > .work-sub{ grid-column:1 / -1; margin-top:22px; }
+    #receive .rx-rest > .pf{ grid-column:1 / -1; }
+    /* 3. photography: 3 side by side, no scrolling */
+    #receive .pf .tl-photos{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; overflow:visible; scroll-snap-type:none; }
+    #receive .pf .tl-photos .ph{ flex:none; min-width:0; border-radius:8px; }
+    #receive .pf .ph-zoom{ width:24px; height:24px; right:5px; top:5px; }
+    #receive .pf .ph-zoom svg{ width:11px; height:11px; }
+  }
+
+  /* ---------- More examples (videos) + Photography: same thumbnail size as "What you will receive" ---------- */
+  @media (min-width:701px){
+    #work .work-grid.work-grid-4{ max-width:776px; gap:12px; }
+    /* photography: 6 photos side by side per project */
+    #story .pf-item{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; align-items:start; }
+    #story .pf-item > .pf-head, #story .pf-item > .pf-reviews{ grid-column:1 / -1; }
+    #story .pf-item > .pf-reviews{ margin-top:10px; }
+    #story .pf-item .tl-photos{ display:contents; }
+  }
+  @media (max-width:700px){
+    /* videos: no scrolling, all in view (4 videos = 2 x 2) */
+    #work .work-grid.work-grid-4{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; overflow:visible; scroll-snap-type:none; max-width:none; }
+    #work .work-grid.work-grid-4 > .work-card{ flex:none; min-width:0; }
+    /* photography: 2 rows of 3, all in view */
+    #story .pf-item{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; align-items:start; }
+    #story .pf-item > .pf-head, #story .pf-item > .pf-reviews{ grid-column:1 / -1; }
+    #story .pf-item > .pf-head{ margin-bottom:8px; }
+    #story .pf-item > .pf-reviews{ margin-top:8px; }
+    #story .pf-item .tl-photos{ display:contents; }
+    #story .pf-item .tl-photos .ph{ flex:none; min-width:0; border-radius:8px; }
+    #story .pf .ph-zoom{ width:24px; height:24px; right:5px; top:5px; }
+    #story .pf .ph-zoom svg{ width:11px; height:11px; }
+  }
+
+
+  /* More examples: cijfers zoals bij "What you will receive" */
+  #work .work-grid-4 .stat-row{ gap:10px; flex-wrap:nowrap; white-space:nowrap; }
+  #work .work-grid-4 .stat{ font-size:12px; gap:4px; flex:none; }
+  #work .work-grid-4 .stat svg{ width:16px; height:16px; }
+  #work .work-grid-4 .stat b{ font-size:13px; }
+  @media (max-width:700px){
+    #work .work-grid-4 .stat-row{ gap:8px; justify-content:center; }
+    #work .work-grid-4 .stat{ font-size:11px; gap:3px; }
+    #work .work-grid-4 .stat svg{ width:13px; height:13px; }
+    #work .work-grid-4 .stat b{ font-size:13px; letter-spacing:0; }
+  }
+
+  /* More examples: views-badge over de video (rechtsonder), net als bij Krujë */
+  #work .rx-badge.work-body{ position:absolute; bottom:12px; right:12px; top:auto; z-index:3; padding:0; pointer-events:none; }
+  #work .rx-badge .stat-bar{ margin:0; box-shadow:0 4px 14px rgba(30,26,22,.28); }
+  @media (max-width:700px){
+    #work .rx-badge.work-body{ bottom:8px; right:8px; }
+    #work .rx-badge .stat-bar{ font-size:12px; padding:5px 10px; gap:5px; }
+    #work .rx-badge .stat-bar b{ font-size:14px; }
+    #work .rx-badge .stat-bar svg{ width:14px; height:14px; }
+    /* minder afstand tussen de 2 rijen video's */
+    #work .work-grid.work-grid-4{ row-gap:0; }
+    #work .work-grid.work-grid-4 .work-body{ padding:6px 2px 8px; }
+    #work .work-grid.work-grid-4 .work-body .loc{ margin:0 0 2px; }
+  }
+
+  /* ---------- Photography: photos first, then name (left) | circle (middle) | review (right) ---------- */
+  #story .work-sub-title{ margin:0 auto 32px; }
+  #story .pf-item > .pf-head{ display:contents; }
+  #story .pf-item .pf-headtext{ order:1; grid-column:1 / 3; align-self:center; text-align:left; margin-top:14px; }
+  #story .pf-item .pf-title{ font-size:21.6px; line-height:1.3; }
+  #story .pf-item .pf-me{ order:1; grid-column:3 / 5; justify-self:center; align-self:center; margin-top:14px; }
+  #story .pf-item > .pf-reviews{ order:1; grid-column:5 / 7; align-self:center; display:block; margin-top:14px; }
+  #story .pf-item > .pf-reviews .tl-review{ margin:0; max-width:none; font-size:14px; }
+  @media (max-width:700px){
+    /* on a phone the review gets its own full-width line under name + circle */
+    #story .pf-item .pf-headtext{ grid-column:1 / 3; margin-top:10px; }
+    #story .pf-item .pf-title{ font-size:18px; }
+    #story .pf-item .pf-me{ grid-column:3 / 4; margin-top:10px; width:64px; height:64px; }
+    #story .pf-item > .pf-reviews{ grid-column:1 / -1; margin-top:6px; }
+  }
+
+  /* ---------- Photography: no divider above, no circle, name under the photos + wide review ---------- */
+  #story.tl{ border-top:0; }
+  #story .pf-item .pf-headtext{ grid-column:1 / 3; align-self:start; margin-top:14px; }
+  #story .pf-item > .pf-reviews{ grid-column:3 / 7; align-self:start; margin-top:14px; }
+  @media (max-width:700px){
+    #story .pf-item .pf-headtext{ grid-column:1 / -1; margin-top:10px; }
+    #story .pf-item > .pf-reviews{ grid-column:1 / -1; margin-top:2px; }
+  }
+
+  /* ---------- Photography: projectnaam + review zoals bij Krujë (titel gecentreerd, ★★★★★ review, tekst links) ---------- */
+  #story .pf-item .pf-headtext{ grid-column:1 / -1; text-align:center; margin-top:14px; }
+  #story .pf-item .pf-title{ font-size:21.6px; line-height:1.3; }
+  #story .pf-item > .pf-reviews{ grid-column:1 / -1; align-self:start; display:block; margin-top:14px; }
+  @media (max-width:700px){
+    #story .pf-item .pf-headtext{ margin-top:10px; }
+    #story .pf-item .pf-title{ font-size:18px; }
+    #story .pf-item > .pf-reviews{ margin-top:10px; }
+  }
+
+  /* ---------- Foto's: strakke hoeken, en op mobiel tot de schermrand ---------- */
+  .ph, .pf .ph, #receive .pf .tl-photos .ph, #story .pf-item .tl-photos .ph{ border-radius:0; }
+  @media (max-width:700px){
+    #receive .pf .tl-photos{ margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+    #story .pf-item{ margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+    #story .pf-item > .pf-reviews, #story .pf-item .pf-headtext{ padding-left:20px; padding-right:20px; }
+  }
+
+  .closing-banner img{ border-radius:0; }
+  @media (max-width:700px){
+    .closing-banner img{ display:block; width:100vw; max-width:none; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+  }
+
+  /* ---------- Desktop: same layout as mobile ---------- */
+  @media (min-width:701px){
+    /* What you will receive: 4 videos, all the same size, same width as "More examples" */
+    #receive .rx{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px 12px; max-width:776px; }
+    #receive .rx-viral{ min-width:0; margin:0; }
+    #receive .rx-rest{ display:contents; }
+    #receive .rx-rest > .work-grid{ display:contents; }
+    #receive .rx-rest > .work-grid > .work-card, #receive .rx-viral > .work-card{ min-width:0; }
+    #receive .rx-rest .work-media, #receive .rx-viral .work-media{ aspect-ratio:2/3; }
+    #receive .rx-viral .stat-row, #receive .rx-rest .stat-row{ gap:10px; flex-wrap:nowrap; white-space:nowrap; }
+    #receive .rx-viral .stat, #receive .rx-rest .stat{ font-size:12px; gap:4px; flex:none; }
+    #receive .rx-viral .stat svg, #receive .rx-rest .stat svg{ width:16px; height:16px; }
+    #receive .rx-viral .stat b, #receive .rx-rest .stat b{ font-size:13px; }
+    /* photography heading + photo row run under the 4 videos */
+    #receive .rx-rest > .work-sub{ grid-column:1 / -1; margin-top:22px; }
+    #receive .rx-rest > .pf{ grid-column:1 / -1; display:block; max-width:none; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); }
+    /* the 6 photos in one row, edge to edge */
+    #receive .pf .tl-photos{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:6px; margin-top:0; max-width:none; }
+    #receive .pf .tl-photos .ph{ border-radius:0; }
+
+    /* Photography section: 6 photos per project, edge to edge */
+    #story .pf-item{ margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw); gap:6px; }
+    #story .pf-item > .pf-reviews, #story .pf-item .pf-headtext{ padding-left:32px; padding-right:32px; }
+  }
+
+  /* ---------- Desktop: videos wider (not to the screen edge) ---------- */
+  @media (min-width:701px){
+    #receive .rx, #work .work-grid.work-grid-4{
+      max-width:none; width:min(1100px, calc(100vw - 64px));
+      margin-left:calc(50% - min(550px, 50vw - 32px)); margin-right:0;
+    }
+    #work .work-grid.work-grid-4{ gap:12px; }
+  }
 </style>
 </head>
 <body>
@@ -907,7 +1204,6 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
     <ul>
-      <li><a href="#why">Why <span class="gold">@manonthenomad</span></a></li>
       <li><a href="#work">Social Video / UGC</a></li>
       <li><a href="#story">Photography</a></li>
       <li><a href="#contact">The offer</a></li>
@@ -933,157 +1229,193 @@
   <section class="hero wrap">
     <div class="eyebrow"><a href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@<span>manonthenomad</span></a>, on <span class="plain">the</span> road</div>
     <h1>Your <em>unique</em> experience<br>deserves great <em>content</em></h1>
+    <div class="work-sub hero-sub">Social video / UGC &amp; Photography</div>
   </section>
 
   <!-- ============ INTRO ============ -->
   <section class="intro wrap">
     <div class="intro-photo">
       <img src="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_800,c_limit/v1792591619/Manon_Joe" alt="Manon & Joe">
-      <p class="intro-photo-line"><a href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@manonthenomad</a>, on the road &ndash; <strong>1.2M views in 24 hours</strong></p>
     </div>
     <div class="intro-text">
       <h2>Hi! I'm Manon 👋</h2>
-      <p>Wild at heart, sharp in content. I am a Dutch 30-year old <strong>professional freelance content creator</strong>. As a <strong>former marketing &amp; content manager</strong> for a <strong>5-star hotel</strong> + <strong>Michelin-star restaurant</strong>, and a <strong>travel agency</strong>, I now take my <strong>15+ years</strong> experience with me as <strong>creator on the road</strong>. My van is packed up with all my gear, and together with my English boyfriend Joe, we are discovering <strong>Europe&rsquo;s best spots to go to</strong>. We&rsquo;d love to come to you!</p>
-      <div class="intro-reach">
-        <p class="intro-reach-label">What I offer:</p>
-        <ul class="intro-reach-list">
-          <li><em>Social video / UGC</em> &ndash; shared on both my &amp; your account</li>
-          <li><em>Photography</em> &ndash; that puts your experience in the best light, ready to use on your own website &amp; channels</li>
-        </ul>
-      </div>
+      <p>Wild at heart, sharp in content:</p>
+      <ul class="intro-reach-list intro-about-list">
+        <li>Dutch 30-year old professional freelance content creator</li>
+        <li>Former marketing &amp; content manager for a 5-star hotel + Michelin-star restaurant</li>
+        <li>Former content creator for a Dutch travel agency</li>
+        <li>Now: creator on the road, my van is packed up with all my gear</li>
+      </ul>
+      <p>Together with my English boyfriend Joe, we are <strong>capturing Europe&rsquo;s best spots to go to</strong>. We&rsquo;d love to come to you!</p>
     </div>
   </section>
 
-
-  <!-- ============ WHY ============ -->
-  <section class="why wrap" id="why">
-    <h2>Why <a class="ig-inline" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@<span class="gold">manon</span>the<span class="gold">nomad</span></a>?</h2>
-
-    <div class="why-grid">
-      <div class="why-col">
-        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
-          <span class="why-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 14.9 8.9 21.8 9.6 16.6 14.2 18.1 21 12 17.5 5.9 21 7.4 14.2 2.2 9.6 9.1 8.9"/></svg>
-          </span>
-          <h3><span class="gold">Spotlight</span>: real content that puts your place in front of the right travelers</h3>
-          <span class="why-chevron">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
-        </button>
-        <div class="why-body">
-          <div class="why-body-inner">
-            <p>Your place gets put in the spotlight in the best way, with real content that reaches active travelers who save unique places for their next trip. You get professional photos and video to use on your own website and channels, a collab post on my account, and a pin on my map, so people keep finding you long after the posts.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="why-col">
-        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
-          <span class="why-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 6"/><polyline points="14 6 21 6 21 13"/></svg>
-          </span>
-          <h3><span class="gold">Expertise</span>: 15+ years marketing, photography &amp; content, for 40+ brands</h3>
-          <span class="why-chevron">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
-        </button>
-        <div class="why-body">
-          <div class="why-body-inner">
-            <p>With over 15 years of hands-on experience in photography, video content creation, and social media strategy, I know exactly what catches the eye. I don't just shoot pretty pictures and videos. I capture your place through a strategic marketing lens to create imagery that actually drives bookings and reservations.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="why-col">
-        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
-          <span class="why-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          </span>
-          <h3><span class="gold">On-location</span>: we travel to you in our campervan with all the gear</h3>
-          <span class="why-chevron">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
-        </button>
-        <div class="why-body">
-          <div class="why-body-inner">
-            <p>Joe and I travel full-time across Europe in our campervan, making it effortless to capture your place on-site. I bring all my professional gear directly to your doorstep, no complex setup or logistics required</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="why-col">
-        <button class="why-toggle" onclick="toggleWhy(this)" aria-expanded="false">
-          <span class="why-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>
-          </span>
-          <h3><span class="gold">Audience</span>: 25-40 year old European adventurers, roadtrippers &amp; nomads</h3>
-          <span class="why-chevron">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </span>
-        </button>
-        <div class="why-body">
-          <div class="why-body-inner">
-            <p>My community mainly consists of active 25–40 year old roadtrippers, nature lovers, couples and nomads, mostly Dutch and German and mostly without kids, who actively save unique places for their next trip. My high-engagement video content regularly reaches 100k+ views across platforms, and my latest video reached Germany as its largest group (23.8%). Many of them travel by camper or van, just like us, and love to treat themselves to a special night, a cabin in nature or a great dinner along the way.</p>
-          </div>
-        </div>
-      </div>
+  <!-- ============ NUMBERS ============ -->
+  <section class="numbers">
+    <div class="numbers-grid">
+      <div class="num"><b>15+</b><span>years experience</span></div>
+      <div class="num"><b>6</b><span>hotel projects<br>last month</span></div>
+      <div class="num"><b>3.6M</b><span>views last month</span></div>
+      <div class="num"><b>20-45</b><span>year old European travelers audience<br><small>(mostly Dutch &amp; German)</small></span></div>
     </div>
-    <a class="why-cta" href="#work">Check out examples and reviews!
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-    </a>
   </section>
 
   <!-- ============ PORTFOLIO ============ -->
-  <section class="work wrap" id="work">
+  <!-- ============ WHAT YOU WILL RECEIVE ============ -->
+  <section class="work wrap" id="receive">
     <div class="work-head">
-      <h2>1. Social <span class="gold">Videos / UGC</span></h2>
+      <h2>What you will <span class="gold">receive</span></h2>
     </div>
 
-    <div class="work-feature">
-      <div class="work-card">
-        <div class="work-media">
-          <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1792579087/BO_Mostar" onclick="openVideoModal(this)">
-            <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1792590830/BO_Mostar-vid.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <div class="work-side">
-        <div class="work-side-top">
-          <p class="work-lead"><b>New fast growing:</b> <a class="work-handle" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">@manonthenomad</a></p>
-          <p class="work-aud">Audience: 25-40 year old travellers from Europe, mostly Dutch &amp; German</p>
+    <div class="rx">
+
+      <p class="work-sub">1. Social Videos / UGC</p>
+
+      <div class="rx-viral">
+<div class="work-card">
+          <div class="work-media">
+            <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+            <div class="rx-badge work-body"><span class="stat-bar stat-live" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>1.7M</b><span class="sr">Views</span></span></div>
+          <video preload="none" playsinline poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1793617331/AL_Kruje-town-viral.jpg" onclick="openVideoModal(this)">
+              <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_540,c_limit,f_mp4,vc_h264:baseline:3.1,ac_aac,q_auto:eco/v1793733426/IG-vid_Kruja_Viral.mp4" type="video/mp4">
+              <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793733426/IG-vid_Kruja_Viral.mp4" type="video/mp4">
+              <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,q_auto/v1793733426/IG-vid_Kruja_Viral.mp4" type="video/mp4">
+              <source src="https://res.cloudinary.com/qsslhlqm/video/upload/v1793733426/IG-vid_Kruja_Viral.mp4" type="video/mp4">
+            </video>
+          </div>
         </div>
         <div class="work-body">
-          <p class="loc loc-jp"><span class="jp-title-row"><a class="loc-link" href="https://www.instagram.com/reel/DeXCesjvqWD/" target="_blank" rel="noopener">City Mostar Tips</a> <a class="just-posted" href="https://www.instagram.com/reel/DeXCesjvqWD/" target="_blank" rel="noopener">Just posted!</a></span></p>
-          <p class="jp-note">Results in <u style="text-decoration-thickness:2px;text-underline-offset:4px;">24 hours</u>:</p>
-          <div class="stat-line">
-            <span class="stat-bar stat-live" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>1.2M</b><span class="sr">Views</span></span>
-            <div class="stat-row">
-              <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>112k</b><span class="sr">Likes</span></div>
-              <div class="stat" title="Comments"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.7 17.9A9.3 9.3 0 1 0 12 21.3c1.4 0 2.7-.3 3.9-.9l4.3 1.2-1.5-4.7z" transform="translate(0 -.3)"/></svg><b>138</b><span class="sr">Comments</span></div>
-              <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>19.6k</b><span class="sr">Saves</span></div>
-            </div>
+          <div class="stat-row">
+            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>1.7M</b><span class="sr">Views</span></div>
+            <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>277k</b><span class="sr">Likes</span></div>
+            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>12.1k</b><span class="sr">Saves</span></div>
           </div>
         </div>
       </div>
+
+      <div class="rx-rest">
+        <div class="work-grid">
+
+      <div class="work-card">
+<div class="work-media">
+              <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+              <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1793617318/AL_Kruje-hotel.jpg" onclick="openVideoModal(this)">
+                <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793609021/IG-vid_Kruja_Hotel-Castle.mp4" type="video/mp4">
+              </video>
+            </div>
+        <div class="work-body">
+              <div class="stat-row">
+                <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>29.2k</b><span class="sr">Views</span></div>
+                <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>3.9k</b><span class="sr">Likes</span></div>
+                <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>210</b><span class="sr">Saves</span></div>
+              </div>
+            </div>
+      </div>
+
+      <div class="work-card">
+<div class="work-media">
+              <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+              <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1793618762/AL_Kruje-history_1.jpg" onclick="openVideoModal(this)">
+                <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793622537/IG-vid_Kruja_Story.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="work-body">
+              <div class="stat-row">
+                <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>15.5k</b><span class="sr">Views</span></div>
+                <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>1.5k</b><span class="sr">Likes</span></div>
+                <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>144</b><span class="sr">Saves</span></div>
+              </div>
+            </div>
+      </div>
+
+      <div class="work-card">
+<div class="work-media">
+              <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+              <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1793618227/AL_Kruje-Hotel-bed_1_1.jpg" onclick="openVideoModal(this)">
+                <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793622357/IG-vid_Kruja_Hotel-Bed-Jump.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="work-body">
+              <div class="stat-row">
+                <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>5.8k</b><span class="sr">Views</span></div>
+                <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>132</b><span class="sr">Likes</span></div>
+                <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>4</b><span class="sr">Saves</span></div>
+              </div>
+            </div>
+      </div>
+
     </div>
 
-    <div class="work-grid">
+    <p class="work-sub"><span><b class="gold" style="font-weight:800">+</b>&nbsp; 2. Photography</span></p>
+    <div class="pf">
+      <div class="tl-photos"><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,h_1050,c_fill,g_auto,q_auto,f_auto/v1793611082/manonthenomad_Kruja-Albergo-Difusso_2026-10_BEST-4.jpg" alt="Krujë hotel photo 1" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,h_1050,c_fill,g_auto,q_auto,f_auto/v1793610844/manonthenomad_Kruja-Albergo-Difusso_2026-10_BEST-3-SMALL.jpg" alt="Krujë hotel photo 2" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,h_1050,c_fill,g_auto,q_auto,f_auto/v1793738432/VID_20261025_100631_185_bsl_exported_4300_1.jpg" alt="Krujë hotel photo 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,h_1050,c_fill,g_auto,q_auto,f_auto/v1793610843/manonthenomad_Kruja-Albergo-Difusso_2026-10_BEST-2-SMALL.jpg" alt="Krujë hotel photo 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/h_1050,c_limit,q_auto,f_auto/v1793734891/manonthenomad_Kruja-Albergo-Difusso_2026-10_BEST-5b.jpg" alt="Krujë hotel photo 5" loading="lazy" style="object-position:12% 50%"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,h_1050,c_fill,g_auto,q_auto,f_auto/v1793772467/IMG_9465_1.jpg" alt="Krujë hotel photo 6" loading="lazy"></div></div>
+    </div>
+
+  </div>
+
+</div>
+
+    <div class="pf rx-review">
+      <details class="rx-rev">
+        <summary>
+          <svg class="rv-brace" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M1 13 Q1 7.5 9 7.5 H88 Q98 7.5 100 1.5 Q102 7.5 112 7.5 H191 Q199 7.5 199 13" vector-effect="non-scaling-stroke"/></svg>
+          <b class="rv-title"><span class="rv-gold">Recent Example:</span><br>Krujë Castle Hotel, Albania</b>
+          <span class="rv-line">
+            <span class="rv-date">Nov. 2026</span>
+            <span class="rv-sep">&ndash;</span>
+            <span class="rv-stars" aria-label="5 stars">★★★★★</span>
+            <span class="rv-word">review</span>
+            <svg class="rv-chev" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </summary>
+        <div class="rv-body">
+          <p>&ldquo;A top collaboration from start to finish. Manon&rsquo;s viral video put Krujë and our hotel in front of thousands of travelers, and we are delighted with the new followers it brought us. We could not be happier with the result&rdquo;</p>
+          <small>Olsi Pengili, Director Kruja Albergo Diffuso</small>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="work wrap" id="work">
+    <div class="work-head">
+      <h2>More <span class="gold">examples</span></h2>
+    </div>
+
+    <p class="work-sub">Social Videos / UGC</p>
+
+    <div class="work-grid work-grid-4">
 
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1792579088/MNE_Petrovac" onclick="openVideoModal(this)">
+          <div class="rx-badge work-body"><span class="stat-bar stat-live" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>1.4M</b><span class="sr">Views</span></span></div>
+          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1793617333/BO_Mostar-viral.jpg" onclick="openVideoModal(this)">
+            <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1792590830/BO_Mostar-vid.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="work-body">
+          <p class="loc loc-jp"><span class="jp-title-row"><a class="loc-link" href="https://www.instagram.com/reel/DeXCesjvqWD/" target="_blank" rel="noopener">City Mostar Tips</a></span></p>
+          <div class="stat-row">
+            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>1.4M</b><span class="sr">Views</span></div>
+            <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>117.9k</b><span class="sr">Likes</span></div>
+            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>21.6k</b><span class="sr">Saves</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-media">
+          <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1793617315/MNE_Petrovac.jpg" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1792580140/MNE-Petrovac.mp4" type="video/mp4">
           </video>
         </div>
         <div class="work-body">
-          <p class="loc loc-jp loc-tight"><a class="loc-link" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">Petrovac, Montenegro</a> <span class="just-posted">Just posted!</span></p>
-          <p class="jp-note">Results in <u style="text-decoration-thickness:2px;text-underline-offset:4px;">24 hours</u>:</p>
+          <p class="loc loc-jp loc-tight"><a class="loc-link" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">Petrovac, Montenegro</a></p>
           <div class="stat-row">
-            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>60k</b><span class="sr">Views</span></div>
-            <div class="stat" title="Shares"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.5L10 14M21.5 3.5l-6.5 18-4-7.5-7.5-4z"/></svg><b>370</b><span class="sr">Shares</span></div>
-            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>454</b><span class="sr">Saves</span></div>
+            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>284.8k</b><span class="sr">Views</span></div>
+            <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>23.6k</b><span class="sr">Likes</span></div>
+            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>2.4k</b><span class="sr">Saves</span></div>
           </div>
         </div>
       </div>
@@ -1091,15 +1423,16 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1792579087/MO_Villa-Petrovac" onclick="openVideoModal(this)">
+          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1793617340/MNE_Hotel-2.jpg" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1792579289/MNE_Villa-Petrovac.mp4" type="video/mp4">
           </video>
         </div>
         <div class="work-body">
           <p class="loc loc-jp loc-tight"><a class="loc-link" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">Villa in Montenegro</a></p>
           <div class="stat-row">
-            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>5k</b><span class="sr">Views</span></div>
-            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>37</b><span class="sr">Saves</span></div>
+            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>5.8k</b><span class="sr">Views</span></div>
+            <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>491</b><span class="sr">Likes</span></div>
+            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>46</b><span class="sr">Saves</span></div>
           </div>
         </div>
       </div>
@@ -1107,16 +1440,16 @@
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
-          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1792579086/BO_Una" onclick="openVideoModal(this)">
+          <video preload="none" poster="https://res.cloudinary.com/qsslhlqm/image/upload/f_auto,q_auto,w_600,c_limit/v1793617338/BO_Una-Camping.png" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1792580619/BO_Camping.mp4" type="video/mp4">
           </video>
         </div>
         <div class="work-body">
           <p class="loc loc-jp"><a class="loc-link" href="https://instagram.com/manonthenomad" target="_blank" rel="noopener">Bosnia Camping</a></p>
           <div class="stat-row">
-            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>43.2k</b><span class="sr">Views</span></div>
-            <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>3.7k</b><span class="sr">Likes</span></div>
-            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>604</b><span class="sr">Saves</span></div>
+            <div class="stat" title="Views"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg><b>51.9k</b><span class="sr">Views</span></div>
+            <div class="stat" title="Likes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8.5-5.2-8.5-11.1C3.5 6.4 5.7 4.5 8.1 4.5c1.7 0 3.1.9 3.9 2.3.8-1.4 2.2-2.3 3.9-2.3 2.4 0 4.6 1.9 4.6 4.9 0 5.9-8.5 11.1-8.5 11.1z"/></svg><b>3.8k</b><span class="sr">Likes</span></div>
+            <div class="stat" title="Saves"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-4.6-6 4.6z"/></svg><b>618</b><span class="sr">Saves</span></div>
           </div>
         </div>
       </div>
@@ -1126,46 +1459,25 @@
 
   <!-- ============ TIMELINE ============ -->
   <section class="tl wrap" id="story">
-    <h2>2. <span class="gold">Photography</span></h2>
+    <p class="work-sub work-sub-title">Photography</p>
     <div class="pf">
       <article class="pf-item">
-        <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Grand Hotel Karel V</h3><p>Fulltime marketing &amp; content manager<br>at 5 star hotel + Michelin-star restaurant</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/f_auto,q_auto,w_220,c_limit/v1791273127/Manon_camera_KarelV_nnfiwx.jpg" alt="Manon with camera at Karel V" loading="lazy"></div></div>
+        
         <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791351843/1791351227006_2_hf4coe.jpg" alt="Grand Hotel Karel V 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791359460/1791357550788_2_wmpoyy.jpg" alt="Grand Hotel Karel V 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791351842/1791351730800_2_n4k63r.jpg" alt="Grand Hotel Karel V 5" loading="lazy"></div></div>
         <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791271118/Foodfotografie_KarelV-Karel5_Utrecht_manonstop.nl_gz0xt0.webp" alt="Grand Hotel Karel V 6" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791524656/KarelV-Chefs2_daaut9.jpg" alt="Grand Hotel Karel V 7" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791524395/KarelV-Food_n0tpwo.jpg" alt="Grand Hotel Karel V 8" loading="lazy"></div></div>
-        <div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;Manon's photography gave our hotel and restaurant a whole new look. Guests noticed, our online channels took off, and the images keep delivering across our website and campaigns&rdquo;<small>Leo, Director at Grand Hotel Karel V</small></div></div>
+        <div class="pf-reviews"><details class="rx-rev"><summary><b class="rv-title">Grand Hotel Karel V, The Netherlands</b><span class="rv-line"><span class="rv-stars" aria-label="5 stars">★★★★★</span> <span class="rv-word">review</span> <svg class="rv-chev" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span></summary><div class="rv-body"><p>&ldquo;Manon's photography gave our hotel and restaurant a whole new look. Guests noticed, our online channels took off, and the images keep delivering across our website and campaigns&rdquo;</p><small>Leo, Director at Grand Hotel Karel V</small></div></details></div>
       </article>
       <article class="pf-item">
-        <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Charlie's Travels</h3><p>Fulltime marketing &amp; content manager<br>at a Dutch travel agency, located in Kenya</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/f_auto,q_auto,w_220,c_limit/v1791273129/Manon_camera_Kenya_1_sulgt4.jpg" alt="Manon with camera in Kenya" loading="lazy"></div></div>
-        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791449861/Charlies-Travels_Kenya_Manon2_xdgms3.jpg" alt="Manon in Kenya" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791451926/Charlies-Travels-Kenya_Cheers_nacm3k.jpg" alt="Kenya Cheers" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791449944/ChatGPT_Image_Sep_7_2026_10_54_51_AM_srq2cf_xvxvda.jpg" alt="Kenya 3" loading="lazy"></div></div><div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791537561/Charlies-Travels_Kenya-beach-2_pdryvb.jpg" alt="Kenya 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791524985/IMG_3935_ikak0t.jpg" alt="Kenya 5" loading="lazy" style="object-position:47% 50%"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791537433/Charlies-Travels_Kenya-motor_vv35va.jpg" alt="Kenya 6" loading="lazy"></div></div><div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;Manon's photos captured Kenya exactly as it feels, and the results showed. Her images lifted our campaigns, brought in more enquiries and became the backbone of our marketing&rdquo;<small>Rémon, Charlie's Travels</small></div></div>
+        
+        <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791449861/Charlies-Travels_Kenya_Manon2_xdgms3.jpg" alt="Manon in Kenya" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791451926/Charlies-Travels-Kenya_Cheers_nacm3k.jpg" alt="Kenya Cheers" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791449944/ChatGPT_Image_Sep_7_2026_10_54_51_AM_srq2cf_xvxvda.jpg" alt="Kenya 3" loading="lazy"></div></div><div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791537561/Charlies-Travels_Kenya-beach-2_pdryvb.jpg" alt="Kenya 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791524985/IMG_3935_ikak0t.jpg" alt="Kenya 5" loading="lazy" style="object-position:47% 50%"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791537433/Charlies-Travels_Kenya-motor_vv35va.jpg" alt="Kenya 6" loading="lazy"></div></div>
+        <div class="pf-reviews"><details class="rx-rev"><summary><b class="rv-title">Charlie's Travels, Kenya</b><span class="rv-line"><span class="rv-stars" aria-label="5 stars">★★★★★</span> <span class="rv-word">review</span> <svg class="rv-chev" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span></summary><div class="rv-body"><p>&ldquo;Manon's photos captured Kenya exactly as it feels, and the results showed. Her images lifted our campaigns, brought in more enquiries and became the backbone of our marketing&rdquo;</p><small>Rémon, Charlie's Travels</small></div></details></div>
       </article>
       <article class="pf-item">
-        <div class="pf-head"><div class="pf-headtext"><h3 class="pf-title">Mawimbi restaurant</h3><p>Freelance content creation<br>for restaurant</p></div><div class="ph pf-me"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/f_auto,q_auto,w_500,c_limit/v1791277055/DRB_0210_mnc2ss.jpg" alt="Manon at work" loading="lazy" style="object-position:50% 0%;transform:translateY(-4%) scale(1.7);transform-origin:58% 24%"></div></div>
+        
         <div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791272872/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_59_c2t2ys.jpg" alt="Mawimbi restaurant 7" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791272850/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_40_llr23d.jpg" alt="Mawimbi restaurant 2" loading="lazy" style="object-position:53% 50%"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791272852/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_14_qyoghe.jpg" alt="Mawimbi restaurant 1" loading="lazy"></div></div><div class="tl-photos "><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791272849/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_29_bpwqbt.jpg" alt="Mawimbi restaurant 3" loading="lazy" style="object-position:42% 50%"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791272851/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_13_xux4hx.jpg" alt="Mawimbi restaurant 4" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/xngwwxyv/image/upload/w_700,c_limit,q_auto,f_auto/v1791272850/Manon-Pierens_Mawimbi-Seafood-Restaurant-Nairobi_58_jemdi5.jpg" alt="Mawimbi restaurant 5" loading="lazy"></div></div>
-        <div class="pf-reviews"><div class="tl-review"><span class="tl-stars" aria-label="5 stars">★★★★★</span>&ldquo;We were so happy with the photos Manon made for the opening of our restaurant. Every dish looked incredible, and they gave our launch exactly the first impression we hoped for&rdquo;<small>Carlos Espindola, Head Chef at Mawimbi</small></div></div>
+        <div class="pf-reviews"><details class="rx-rev"><summary><b class="rv-title">Mawimbi Restaurant, Kenya</b><span class="rv-line"><span class="rv-stars" aria-label="5 stars">★★★★★</span> <span class="rv-word">review</span> <svg class="rv-chev" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></span></summary><div class="rv-body"><p>&ldquo;We were so happy with the photos Manon made for the opening of our restaurant. Every dish looked incredible, and they gave our launch exactly the first impression we hoped for&rdquo;</p><small>Carlos Espindola, Head Chef at Mawimbi</small></div></details></div>
         </article>
     </div>
-  </section>
-
-  <!-- ============ TIPS MAP ============ -->
-  <section class="map wrap" id="map">
-    <h2 class="map-title">My Interactive Tips <span class="gold">Map</span> 📍</h2>
-    <div class="map-inner">
-      <div class="map-text">
-        <div class="subtitle">Every place I fall for,<br>ends up on the map</div>
-        <p>Say yes to welcoming Joe and me, and your spot gets <span class="gold">pinned on my map</span>, giving your location long-term exposure to an active audience of European travelers looking for the best travel recommendations.</p>
-      </div>
-      <a class="map-graphic" href="https://spots.manonstop.nl/" target="_blank" rel="noopener">
-        <img src="https://res.cloudinary.com/xngwwxyv/image/upload/f_auto,q_auto,w_1000,c_limit/v1785326671/Preview_Manon_s-Campspots_fdwpxa" loading="lazy" alt="Manon's Campspots interactive map preview">
-        <span class="map-cta">🗺️ Open interactive map</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- ============ EXTRAS ============ -->
-  <section class="extras wrap">
-    <h2>Need <span class="gold">more</span> than content?</h2>
-    <p>Next to social media, content creation, photography and videography, <strong>I also do graphic design <em>and</em> websites!</strong> Want a flyer or menu card, a new website, or a fresh look at your current one? Let me know!</p>
-    <a class="cta" href="https://manonstop.nl" target="_blank" rel="noopener">See my wider portfolio</a>
   </section>
 
   <!-- ============ BOOKING ============ -->
@@ -1175,16 +1487,10 @@
       <h2>Let's <em>team up</em>!</h2>
       <p class="book-lead">Joe and I would love to visit your place. Here's how it works:</p>
       <div class="book-grid">
-        <div class="book-give">
-          <small>You offer</small>
-          <b>Something special</b>
-          <span>for 2 people: a stay, dinner, tasting or activity</span>
-        </div>
-        <div class="book-arrow" aria-hidden="true">&rarr;</div>
         <div class="book-get">
           <small>You get</small>
           <ul>
-            <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Social video / UGC</b><br>on <a class="book-ig" href="https://www.instagram.com/manonthenomad/" target="_blank" rel="noopener">@manonthenomad</a>, where videos reach up to 1.2M views + <b>collab post</b> on your account</span></li>
+            <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Social video / UGC</b><br>on <a class="book-ig" href="https://www.instagram.com/manonthenomad/" target="_blank" rel="noopener">@manonthenomad</a>, where videos reach up to 1.7M views + <b>collab post</b> on your account</span></li>
             <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Professional photography pack</b><br>that puts your place in the best light</span></li>
           <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 10 18 20 6"/></svg><span><b class="pfb">Yours to use</b><br>all photos &amp; video on your own website &amp; channels</span></li>
           </ul>
@@ -1225,6 +1531,7 @@
       <button class="video-modal-close" onclick="closeVideoModal(event)" aria-label="Close video">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
       </button>
+      <p id="modalVideoMsg" hidden style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);margin:0;padding:0 24px;text-align:center;color:#fff;font-size:15px;line-height:1.5;pointer-events:none;">This video could not be loaded. Please try again in a moment.</p>
       <video id="modalVideo" controls playsinline>
         <source src="" type="video/mp4">
       </video>
@@ -1340,6 +1647,10 @@
         c.src = n.src; c.type = n.type || 'video/mp4';
         modalVideo.appendChild(c);
       });
+      var msg = document.getElementById('modalVideoMsg');
+      if(msg) msg.hidden = true;
+      var srcs = modalVideo.querySelectorAll('source');
+      if(srcs.length){ srcs[srcs.length-1].onerror = function(){ if(msg) msg.hidden = false; }; }
       modalVideo.load();
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -1402,10 +1713,10 @@
 
       const singleSelectors = [
         '.work-head h2', '.photo-head h2', '.photo-head p',
-        '.map-title', '.why h2', '.reviews h2',
+        '.why h2', '.reviews h2',
         '.contact-cta h2', '.contact-cta > p',
         '.intro-photo', '.intro-text',
-        '.map-text', '.map-graphic', '.pf-item > *', '.pf-outro', '.tl h2', '.can h2', '.extras h2', '.extras p'
+        '.pf-item > *', '.pf-outro', '.tl h2', '.can h2'
       ];
       singleSelectors.forEach(sel => {
         document.querySelectorAll(sel).forEach(el => el.classList.add('reveal'));
@@ -1534,5 +1845,56 @@
       document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.body.classList.contains('menu-open')) setOpen(false); });
     })();
   </script>
+
+<script>
+/* cijfers: zacht inschuiven en optellen als ze in beeld komen */
+document.addEventListener('DOMContentLoaded', function(){
+  var nums = document.querySelectorAll('.numbers .num');
+  if(!nums.length) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce || !('IntersectionObserver' in window)) return;
+
+  var re = /(\d+(?:\.\d+)?)/g;
+  var items = Array.prototype.map.call(nums, function(n, i){
+    var b = n.querySelector('b'), final = b.textContent;
+    var parts = final.split(re); /* tekst en getallen wisselen af */
+    var targets = [];
+    parts.forEach(function(p, k){ if(k % 2 === 1) targets.push({ k:k, v:parseFloat(p), d:(p.split('.')[1]||'').length }); });
+    b.style.minWidth = b.offsetWidth + 'px';
+    n.style.setProperty('--d', (i * 140) + 'ms');
+    n.classList.add('anim');
+    return { n:n, b:b, parts:parts, targets:targets };
+  });
+
+  function render(it, t){
+    var out = it.parts.slice();
+    it.targets.forEach(function(x){ out[x.k] = (x.v * t).toFixed(x.d); });
+    it.b.textContent = out.join('');
+  }
+  items.forEach(function(it){ render(it, 0); });
+
+  function run(it, delay){
+    setTimeout(function(){
+      it.n.classList.add('in');
+      var start = null, dur = 1700;
+      function step(ts){
+        if(start === null) start = ts;
+        var p = Math.min((ts - start) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+        render(it, e);
+        if(p < 1){ requestAnimationFrame(step); } else { it.b.classList.add('done'); }
+      }
+      requestAnimationFrame(step);
+    }, delay);
+  }
+
+  var seen = false;
+  var io = new IntersectionObserver(function(entries){
+    if(seen || !entries[0].isIntersecting) return;
+    seen = true; io.disconnect();
+    items.forEach(function(it, i){ run(it, i * 140); });
+  }, { threshold:0.4 });
+  io.observe(document.querySelector('.numbers'));
+});
+</script>
 </body>
 </html>
