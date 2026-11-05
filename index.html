@@ -1200,12 +1200,12 @@ original link (cloud names in use: qsslhlqm, xngwwxyv).
   #work .bl .pf{ display:block; max-width:none; margin:22px calc(50% - 50vw) 0; width:100vw; }
   #work .bl .pf .tl-photos{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; margin-top:0; max-width:none; overflow:visible; }
   #work .bl .pf .ph{ border-radius:0; }
-  #work .bl-head{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; max-width:none; margin:0; padding:0 6px; box-sizing:border-box; aspect-ratio:2/3; text-align:center; }
+  #work .bl-title{ display:flex; flex-direction:column; align-items:center; gap:4px; margin:36px auto 0; }
   @media (min-width:701px){
     #work .bl .work-grid{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); width:min(1100px, calc(100vw - 64px)); margin-left:calc(50% - min(550px, 50vw - 32px)); margin-right:0; overflow:visible; }
   }
   @media (max-width:700px){
-    /* videos: no swiping, all in view (2 x 2, text in the first slot) */
+    /* videos: no swiping, all in view (2 x 2) */
     #work .bl .work-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; overflow:visible; scroll-snap-type:none; max-width:none; }
     #work .bl .work-grid > .work-card{ flex:none; min-width:0; }
     #work .bl .pf .tl-photos{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; scroll-snap-type:none; }
@@ -1407,16 +1407,20 @@ original link (cloud names in use: qsslhlqm, xngwwxyv).
     <div class="bl">
       <div class="work-grid">
 
-      <div class="rx-rev bl-head">
-          <b class="rv-title"><span class="rv-gold">Working on now:</span><br>Blerina Agritourism, Albania</b>
-          <span class="rv-line"><span class="rv-date">Nov. 2026</span></span>
-        </div>
-
       <div class="work-card">
         <div class="work-media">
           <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
           <video preload="none" playsinline poster="https://res.cloudinary.com/qsslhlqm/video/upload/so_1,f_jpg,q_auto,w_600,c_limit/v1793880577/IG-vid_Trumpet-quick_with-text.jpg" onclick="openVideoModal(this)">
             <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793880577/IG-vid_Trumpet-quick_with-text.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-media">
+          <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+          <video preload="none" playsinline poster="https://res.cloudinary.com/qsslhlqm/video/upload/so_1,f_jpg,q_auto,w_600,c_limit/v1793891584/VLOG__Blerina-Agritourism.jpg" onclick="openVideoModal(this)">
+            <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793891584/VLOG__Blerina-Agritourism.mp4" type="video/mp4">
           </video>
         </div>
       </div>
@@ -1443,6 +1447,12 @@ original link (cloud names in use: qsslhlqm, xngwwxyv).
 
       <div class="pf">
         <div class="tl-photos"><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880129/manonthenomad_Blerina-BEST-1-Terrain_2026-10.jpg" alt="Blerina Agritourism terrain" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880125/manonthenomad_Blerina-BEST-4-Hotel-Room_2026-10.jpg" alt="Blerina Agritourism hotel room 1" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880317/manonthenomad_Blerina-Hotel_Breakfast_2026-10_2_-_Smaller.jpg" alt="Blerina Agritourism breakfast" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880125/manonthenomad_Blerina-BEST-7b-Hotel-Room_2026-10.jpg" alt="Blerina Agritourism hotel room 2" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880318/manonthenomad_Blerina-BEST-6-Hotel-Room_2026-10_-_Smaller.jpg" alt="Blerina Agritourism hotel room 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880347/manonthenomad_Blerina-BEST-2-Hotel-Room_2026-10_-_Smaller.jpg" alt="Blerina Agritourism hotel room 4" loading="lazy"></div></div>
+      </div>
+
+      <div class="rx-rev bl-title">
+        <svg class="rv-brace" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M1 13 Q1 7.5 9 7.5 H88 Q98 7.5 100 1.5 Q102 7.5 112 7.5 H191 Q199 7.5 199 13" vector-effect="non-scaling-stroke"/></svg>
+        <b class="rv-title"><span class="rv-gold">Working on now:</span><br>Blerina Agritourism, Albania</b>
+        <span class="rv-line"><span class="rv-date">Nov. 2026</span></span>
       </div>
 
     </div>
