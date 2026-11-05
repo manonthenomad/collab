@@ -1194,6 +1194,24 @@ original link (cloud names in use: qsslhlqm, xngwwxyv).
     }
     #work .work-grid.work-grid-4{ gap:12px; }
   }
+  /* ---------- More examples: "Working on now" project (Blerina) ---------- */
+  #work .bl{ margin:0 0 56px; }
+  #work .bl .work-grid{ max-width:none; margin:0; gap:12px; }
+  #work .bl .pf{ display:block; max-width:none; margin:22px calc(50% - 50vw) 0; width:100vw; }
+  #work .bl .pf .tl-photos{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; margin-top:0; max-width:none; overflow:visible; }
+  #work .bl .pf .ph{ border-radius:0; }
+  #work .bl-head{ display:flex; flex-direction:column; align-items:center; gap:4px; max-width:none; margin:26px auto 0; text-align:center; }
+  @media (min-width:701px){
+    #work .bl .work-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); width:min(822px, calc(100vw - 64px)); margin:0 auto; overflow:visible; }
+  }
+  @media (max-width:700px){
+    /* videos: no swiping, all in view (2 on top, 1 below) */
+    #work .bl .work-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; overflow:visible; scroll-snap-type:none; max-width:none; }
+    #work .bl .work-grid > .work-card{ flex:none; min-width:0; }
+    #work .bl .work-grid > .work-card:nth-child(3){ grid-column:1 / -1; justify-self:center; width:calc((100% - 10px) / 2); }
+    #work .bl .pf .tl-photos{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; scroll-snap-type:none; }
+    #work .bl .pf .tl-photos .ph{ flex:none; min-width:0; }
+  }
 </style>
 </head>
 <body>
@@ -1384,6 +1402,49 @@ original link (cloud names in use: qsslhlqm, xngwwxyv).
   <section class="work wrap" id="work">
     <div class="work-head">
       <h2>More <span class="gold">Examples</span></h2>
+    </div>
+
+    <!-- Working on now: Blerina Agritourism (no review yet, no stats yet) -->
+    <div class="bl">
+      <div class="work-grid">
+
+      <div class="work-card">
+        <div class="work-media">
+          <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+          <video preload="none" playsinline poster="https://res.cloudinary.com/qsslhlqm/video/upload/so_1,f_jpg,q_auto,w_600,c_limit/v1793880577/IG-vid_Trumpet-quick_with-text.jpg" onclick="openVideoModal(this)">
+            <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793880577/IG-vid_Trumpet-quick_with-text.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-media">
+          <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+          <video preload="none" playsinline poster="https://res.cloudinary.com/qsslhlqm/video/upload/so_1,f_jpg,q_auto,w_600,c_limit/v1793880576/IG-vid_1-Welcome-to_Long_withManon.jpg" onclick="openVideoModal(this)">
+            <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793880576/IG-vid_1-Welcome-to_Long_withManon.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <div class="work-media">
+          <div class="play-btn" onclick="expandVideo(this)"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></div>
+          <video preload="none" playsinline poster="https://res.cloudinary.com/qsslhlqm/video/upload/so_1,f_jpg,q_auto,w_600,c_limit/v1793880575/IG-vid_Toka-restaurant.jpg" onclick="openVideoModal(this)">
+            <source src="https://res.cloudinary.com/qsslhlqm/video/upload/w_720,c_limit,f_mp4,vc_h264,ac_aac,q_auto/v1793880575/IG-vid_Toka-restaurant.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      </div>
+
+      <div class="pf">
+        <div class="tl-photos"><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880129/manonthenomad_Blerina-BEST-1-Terrain_2026-10.jpg" alt="Blerina Agritourism terrain" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880125/manonthenomad_Blerina-BEST-4-Hotel-Room_2026-10.jpg" alt="Blerina Agritourism hotel room 1" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880317/manonthenomad_Blerina-Hotel_Breakfast_2026-10_2_-_Smaller.jpg" alt="Blerina Agritourism breakfast" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880125/manonthenomad_Blerina-BEST-7b-Hotel-Room_2026-10.jpg" alt="Blerina Agritourism hotel room 2" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880318/manonthenomad_Blerina-BEST-6-Hotel-Room_2026-10_-_Smaller.jpg" alt="Blerina Agritourism hotel room 3" loading="lazy"></div><div class="ph"><img src="https://res.cloudinary.com/qsslhlqm/image/upload/w_700,c_limit,q_auto,f_auto/v1793880347/manonthenomad_Blerina-BEST-2-Hotel-Room_2026-10_-_Smaller.jpg" alt="Blerina Agritourism hotel room 4" loading="lazy"></div></div>
+      </div>
+
+      <div class="rx-rev bl-head">
+        <b class="rv-title"><span class="rv-gold">Working on now:</span><br>Blerina Agritourism, Albania</b>
+        <span class="rv-line"><span class="rv-date">Nov. 2026</span></span>
+      </div>
     </div>
 
     <p class="work-sub">Social Videos / UGC</p>
